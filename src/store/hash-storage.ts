@@ -1,9 +1,9 @@
-import { StateStorage } from 'zustand/middleware';
+import { StateStorage } from "zustand/middleware";
 
 export const hashStorage: StateStorage = {
   getItem: (key): string => {
     const searchParams = new URLSearchParams(location.hash.slice(1));
-    const storedValue = searchParams.get(key) ?? '';
+    const storedValue = searchParams.get(key) ?? "";
     return JSON.parse(storedValue);
   },
   setItem: (key, newValue): void => {
