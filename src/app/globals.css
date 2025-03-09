@@ -2,6 +2,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --border: oklch(0.95 0 0);
+}
+
+.dark {
+  --background: oklch(0.2785 0.0132 253.04);
+  --foreground: oklch(0.985 0.0132 253.04);
+  --primary: oklch(0.985 0.0132 253.04);
+  --primary-foreground: oklch(0.205 0.0132 253.04);
+  --secondary: oklch(0.2365 0.0132 253.04);
+  --secondary-foreground: oklch(0.985 0.0132 253.04);
+  --muted: oklch(0.2365 0.0132 253.04);
+  --muted-foreground: oklch(0.708 0.0132 253.04);
+  --accent: oklch(0.2365 0.0132 253.04);
+  --accent-foreground: oklch(0.985 0.0132 253.04);
+  --border: oklch(0.2365 0.0132 253.04);
+}
+
 @layer utilities {
   /* Source: TailwindUI */
   .line-y {
@@ -11,11 +39,7 @@
   .line-y:before {
     top: calc(var(--spacing) * 0);
     content: var(--tw-content);
-    background-color: color-mix(
-      in oklab,
-      var(--color-gray-950) 5%,
-      transparent
-    );
+    background-color: var(--color-border);
     width: 200vw;
     height: 1px;
     position: absolute;
@@ -25,11 +49,7 @@
   .line-y:after {
     bottom: calc(var(--spacing) * 0);
     content: var(--tw-content);
-    background-color: color-mix(
-      in oklab,
-      var(--color-gray-950) 5%,
-      transparent
-    );
+    background-color: var(--color-border);
     width: 200vw;
     height: 1px;
     position: absolute;
@@ -42,11 +62,7 @@
   .line-b:after {
     bottom: calc(var(--spacing) * 0);
     content: var(--tw-content);
-    background-color: color-mix(
-      in oklab,
-      var(--color-gray-950) 5%,
-      transparent
-    );
+    background-color: var(--color-border);
     width: 200vw;
     height: 1px;
     position: absolute;
@@ -60,14 +76,31 @@
   .line-t:before {
     top: calc(var(--spacing) * 0);
     content: var(--tw-content);
-    background-color: color-mix(
-      in oklab,
-      var(--color-gray-950) 5%,
-      transparent
-    );
+    background-color: var(--color-border);
     width: 200vw;
     height: 1px;
     position: absolute;
     left: -100vw;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   description: "A theme picker for NativeWind UI",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body
