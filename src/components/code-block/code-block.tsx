@@ -26,5 +26,5 @@ export function CodeBlock({
     }
   }, [children, language, resolvedTheme]);
 
-  return nodes ?? <p>Loading...</p>;
+  return nodes ?? null;
 }

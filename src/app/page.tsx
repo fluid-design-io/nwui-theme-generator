@@ -1,3 +1,4 @@
+import { Preview } from "@/components/preview";
 import { ThemeCodeGen } from "@/components/theme-picker/code-gen";
 import ThemePickerHeader from "@/components/theme-picker/header";
 import { Palettes } from "@/components/theme-picker/palettes";
@@ -11,14 +12,16 @@ export default function Home() {
           <Palettes />
           <ThemeCodeGen />
         </div>
-        <div className='lg:border-l flex-1'>
+        <div className='lg:border-l flex-1 relative isolate flex flex-col @container/preview'>
           <div
             className={cn(
+              "absolute inset-0 z-[-1]",
               "px-4 py-2 sm:px-2",
               "h-full w-full",
               "bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-border)]"
             )}
           />
+          <Preview />
         </div>
       </div>
     </div>

@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "svg-theme-color": "bun run src/scripts/svg-theme-color.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
@@ -14,6 +15,7 @@
     "babel-plugin-react-compiler": "^19.0.0-beta-40c6c23-20250301",
     "clsx": "^2.1.1",
     "color": "^5.0.0",
+    "dedent": "^1.5.3",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "immer": "^10.1.1",
     "motion": "^12.4.10",
@@ -32,6 +34,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "bun": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "tailwind-merge": "^3.0.2",

@@ -119,6 +119,10 @@
   }
 }
 
+@utility scrollbar {
+  scrollbar-color: var(--color-border) var(--color-background);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

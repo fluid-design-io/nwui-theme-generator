@@ -3,17 +3,21 @@
 import { HexColorPicker } from "react-colorful";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { ColorState, useThemeStore } from "@/store/theme-store";
 
 export const ColorPicker = ({
   title,
-  color: initialColor,
+  colorKey,
 }: {
   title: string;
-  color: string;
+  colorKey: keyof ColorState;
 }) => {
-  const [color, setColor] = useState(initialColor);
+  const { colors, setColor, mode, theme } = useThemeStore();
+  const updateColor = (color: string) => {
+    setColor(colorKey, color);
+  };
   return (
     <Popover className='relative border-l first:border-none group/color-picker'>
       <PopoverButton
@@ -30,10 +34,10 @@ export const ColorPicker = ({
           <div className='flex items-center gap-1'>
             <div
               className='size-3.5 inset-ring inset-ring-border rounded-full'
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: colors[theme][mode][colorKey] }}
             />
             <p className='font-mono font-light text-muted-foreground uppercase'>
-              {color}
+              {colors[theme][mode][colorKey]}
             </p>
           </div>
         </div>
@@ -55,7 +59,11 @@ export const ColorPicker = ({
         anchor='bottom'
         className='p-4.5 bg-background border -mt-px rounded-b-2xl'
       >
-        <HexColorPicker color={color} onChange={setColor} />
+        <HexColorPicker
+          color={colors[theme][mode][colorKey]}
+          onChange={updateColor}
+          autoFocus
+        />
       </PopoverPanel>
     </Popover>
   );
