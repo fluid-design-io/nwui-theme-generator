@@ -2,10 +2,9 @@
 
 import { useThemeStore } from "@/store/theme-store";
 import { useMemo } from "react";
-import { CodeBlock } from "./code-block/code-block";
-import { cn } from "@/lib/utils";
+import { CodeBlock } from "../code-block/code-block";
 
-export function ThemePicker() {
+export function ThemeCodeGen() {
   const store = useThemeStore();
 
   const colorsTs = useMemo(
@@ -31,18 +30,12 @@ export function ThemePicker() {
   );
 
   return (
-    <div className='line-y mt-8'>
+    <div className='line-y lg:line-y/half mt-8'>
       <div className='bg-border p-2'>
         <div className='flex items-center rounded-2xl bg-background p-6 sm:rounded-4xl sm:p-10'>
           <CodeBlock language='typescript'>{colorsTs}</CodeBlock>
         </div>
       </div>
-      <div
-        className={cn(
-          "h-96 w-full",
-          "bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-border)]"
-        )}
-      />
     </div>
   );
 }

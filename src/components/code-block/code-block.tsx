@@ -13,7 +13,7 @@ export function CodeBlock({
   language: BundledLanguage;
   initial?: JSX.Element;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [nodes, setNodes] = useState<JSX.Element | null>(initial ?? null);
 
   useLayoutEffect(() => {
@@ -21,10 +21,10 @@ export function CodeBlock({
       void highlight(
         children,
         language,
-        theme === "dark" ? "github-dark" : "github-light"
+        resolvedTheme === "dark" ? "github-dark" : "github-light"
       ).then(setNodes);
     }
-  }, [children, language, theme]);
+  }, [children, language, resolvedTheme]);
 
   return nodes ?? <p>Loading...</p>;
 }

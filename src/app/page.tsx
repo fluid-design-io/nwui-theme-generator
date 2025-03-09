@@ -1,19 +1,24 @@
-import { ThemePicker } from "@/components/theme-picker";
+import { ThemeCodeGen } from "@/components/theme-picker/code-gen";
 import ThemePickerHeader from "@/components/theme-picker/header";
 import { Palettes } from "@/components/theme-picker/palettes";
+import { cn } from "@/lib/utils";
 export default function Home() {
   return (
     <div>
-      <div className='line-y mt-12 grid gap-x-10 sm:mt-20 lg:mt-24 lg:grid-cols-[3fr_2fr]'>
+      <div className='line-y mt-12 grid gap-x-10 sm:mt-20 lg:mt-24 lg:grid-cols-[3.5fr_2fr]'>
         <div className='lg:border-r'>
           <ThemePickerHeader />
           <Palettes />
-          <ThemePicker />
+          <ThemeCodeGen />
         </div>
-        <div className='lg:border-l'>
-          <div className='relative z-[1] mt-px -mb-px px-4 py-2 sm:px-2 bg-background min-h-screen'>
-            <h1>Preview</h1>
-          </div>
+        <div className='lg:border-l flex-1'>
+          <div
+            className={cn(
+              "px-4 py-2 sm:px-2",
+              "h-full w-full",
+              "bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-border)]"
+            )}
+          />
         </div>
       </div>
     </div>

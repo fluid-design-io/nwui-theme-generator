@@ -30,13 +30,11 @@
   --border: oklch(0.2365 0.0132 253.04);
 }
 
-@layer utilities {
-  /* Source: TailwindUI */
-  .line-y {
-    position: relative;
-  }
+/* Source: TailwindUI */
+@utility line-y {
+  position: relative;
 
-  .line-y:before {
+  &::before {
     top: calc(var(--spacing) * 0);
     content: var(--tw-content);
     background-color: var(--color-border);
@@ -46,7 +44,7 @@
     left: -100vw;
   }
 
-  .line-y:after {
+  &::after {
     bottom: calc(var(--spacing) * 0);
     content: var(--tw-content);
     background-color: var(--color-border);
@@ -55,11 +53,28 @@
     position: absolute;
     left: -100vw;
   }
-  .line-b {
-    position: relative;
+}
+
+@utility line-y/half {
+  @apply line-y;
+
+  &::before {
+    width: 100vw;
+    left: auto;
+    right: 0;
   }
 
-  .line-b:after {
+  &::after {
+    width: 100vw;
+    left: auto;
+    right: 0;
+  }
+}
+
+@utility line-b {
+  position: relative;
+
+  &::after {
     bottom: calc(var(--spacing) * 0);
     content: var(--tw-content);
     background-color: var(--color-border);
@@ -68,12 +83,22 @@
     position: absolute;
     left: -100vw;
   }
+}
 
-  .line-t {
-    position: relative;
+@utility line-b/half {
+  @apply line-b;
+
+  &::after {
+    width: 100vw;
+    left: auto;
+    right: 0;
   }
+}
 
-  .line-t:before {
+@utility line-t {
+  position: relative;
+
+  &::before {
     top: calc(var(--spacing) * 0);
     content: var(--tw-content);
     background-color: var(--color-border);
@@ -81,6 +106,16 @@
     height: 1px;
     position: absolute;
     left: -100vw;
+  }
+}
+
+@utility line-t/half {
+  @apply line-t;
+
+  &::before {
+    width: 100vw;
+    left: auto;
+    right: 0;
   }
 }
 

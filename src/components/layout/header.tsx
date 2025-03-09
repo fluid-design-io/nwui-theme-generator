@@ -1,7 +1,7 @@
 import { Navbar, NavbarItem, NavbarSection } from "@/components/ui/navbar";
 import Logo from "@/components/icon/logo";
 import Link from "next/link";
-import { ThemeToggle } from "./theme-toggle";
+import ThemeToggle from "./theme-toggle";
 
 function Header() {
   return (

@@ -1,25 +1,43 @@
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import { TabListText } from "../ui/text";
+import { Radio, RadioGroup } from "@headlessui/react";
+import { TextMono } from "../ui/text";
+import { ColorPicker } from "./color-picker";
 
 export function Palettes() {
   return (
-    <TabGroup>
-      <TabList className='line-y'>
-        <Tab className='border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-selected:bg-border/50 sm:px-6'>
-          <TabListText>iOS</TabListText>
-        </Tab>
-        <Tab className='border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-selected:bg-border/50 sm:px-6'>
-          <TabListText>Android</TabListText>
-        </Tab>
-        <Tab className='border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-selected:bg-border/50 sm:px-6'>
-          <TabListText>Web</TabListText>
-        </Tab>
-      </TabList>
-      <TabPanels className='mt-4 px-4 py-2 sm:px-2'>
-        <TabPanel>Content 1</TabPanel>
-        <TabPanel>Content 2</TabPanel>
-        <TabPanel>Content 3</TabPanel>
-      </TabPanels>
-    </TabGroup>
+    <>
+      <RadioGroup className='line-y lg:line-y/half flex items-center'>
+        <Radio
+          as='div'
+          value='ios'
+          className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6'
+        >
+          <TextMono>iOS</TextMono>
+        </Radio>
+        <Radio
+          as='div'
+          value='android'
+          className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6'
+        >
+          <TextMono>Android</TextMono>
+        </Radio>
+        <Radio
+          as='div'
+          value='web'
+          className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6'
+        >
+          <TextMono>Web</TextMono>
+        </Radio>
+      </RadioGroup>
+      <div className='grid grid-cols-2 md:grid-cols-4 line-b lg:line-b/half'>
+        {[
+          { title: "Primary", color: "#000000" },
+          { title: "Secondary", color: "#000000" },
+          { title: "Accent", color: "#000000" },
+          { title: "Muted", color: "#000000" },
+        ].map(({ title, color }, index) => (
+          <ColorPicker key={index} title={title} color={color} />
+        ))}
+      </div>
+    </>
   );
 }

@@ -14,7 +14,7 @@ export function Text({
   );
 }
 
-export function TabListText({
+export function TextMono({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"span">) {
