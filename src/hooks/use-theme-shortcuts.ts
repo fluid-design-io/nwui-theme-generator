@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme-store";
+import { PreviewOption } from "@/components/preview/dropdown";
 
 export function useThemeShortcuts() {
   const setPlatform = useThemeStore((state) => state.setPlatform);
@@ -62,4 +63,37 @@ export function useColorPickerShortcuts(modifier: ColorPickerModifier) {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [modifier]);
+}
+
+export function usePreviewShortcuts(
+  previewOptions: PreviewOption[],
+  setPreview: (value: PreviewOption["value"]) => void,
+) {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Map shifted characters to their corresponding numbers
+      const shiftedToNumber: { [key: string]: number } = {
+        "!": 1,
+        "@": 2,
+        "#": 3,
+        $: 4,
+        "%": 5,
+        "^": 6,
+        "&": 7,
+        "*": 8,
+        "(": 9,
+      };
+
+      if (event.shiftKey && shiftedToNumber[event.key]) {
+        const number = shiftedToNumber[event.key];
+        if (number <= previewOptions.length) {
+          setPreview(previewOptions[number - 1].value);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [setPreview, previewOptions]);
 }

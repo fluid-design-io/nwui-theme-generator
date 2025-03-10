@@ -66,7 +66,7 @@ export const ColorPicker = ({
           <EllipsisVerticalIcon className="text-border mt-2 size-4 opacity-35" />
           <span className="sr-only">Options</span>
         </DropdownButton>
-        <DropdownMenu>
+        <DropdownMenu anchor="bottom end">
           <DropdownItem disabled={platform === "ios"}>
             Copy from iOS
           </DropdownItem>

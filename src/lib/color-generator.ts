@@ -53,7 +53,9 @@ export abstract class BaseColorGenerator {
    * Helper to get contrast color based on background color
    */
   protected contrastColor(color: ColorInstance, soften = 0): ColorInstance {
-    return color.isLight() ? color.l(soften) : color.l(100 - soften);
+    return color.isLight()
+      ? color.lightness(soften)
+      : color.lightness(100 - soften);
   }
 
   /**
@@ -307,11 +309,11 @@ export class IOSColorGenerator extends BaseColorGenerator {
     if (theme === "light" || sync) {
       light = {
         primary: primaryColor.hex(),
-        primaryForeground: this.contrastColor(primaryColor).hex(),
-        background: primaryColor.lightness(98).hex(), // Brighter background
+        primaryForeground: this.contrastColor(primaryColor, 3).hex(),
+        background: primaryColor.lightness(98).hex(),
         foreground: this.contrastColor(primaryColor.lightness(98)).hex(),
-        muted: primaryColor.lightness(80).desaturate(0.2).hex(), // Less desaturated
-        mutedForeground: primaryColor.lightness(40).desaturate(0.2).hex(),
+        muted: primaryColor.lightness(88).desaturate(0.2).hex(), // Less desaturated
+        mutedForeground: primaryColor.lightness(58).desaturate(0.2).hex(),
         border: primaryColor.lightness(92).desaturate(0.3).hex(),
         input: primaryColor.lightness(88).desaturate(0.3).hex(),
         ring: primaryColor.lightness(85).desaturate(0.2).hex(),
