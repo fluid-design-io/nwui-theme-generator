@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-
 interface ColorDisplayButtonProps {
   title: string;
   color: string;
@@ -19,9 +17,7 @@ export const ColorDisplayButton = ({
           className='size-3.5 inset-ring inset-ring-border rounded-full'
           style={{ backgroundColor: color }}
         />
-        <p
-          className={cn("font-mono font-light text-muted-foreground uppercase")}
-        >
+        <p className='font-mono font-light text-muted-foreground uppercase'>
           {color}
         </p>
       </div>

@@ -1,26 +1,37 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { Popover, PopoverButton } from "@headlessui/react";
 import { SyncColor, useThemeStore } from "@/store/theme-store";
 import { useEffect, useRef, useState } from "react";
 import { ColorDisplayButton } from "./color-display-button";
 import { ColorPickerPanel } from "./color-picker-panel";
+import { PencilIcon } from "@heroicons/react/16/solid";
+
+import {
+  ColorPickerModifier,
+  useColorPickerShortcuts,
+} from "@/hooks/use-theme-shortcuts";
 
 export const ColorPicker = ({
   title,
   colorKey,
+  modifier,
 }: {
   title: string;
   colorKey: keyof (SyncColor & { muted: string });
+  modifier: ColorPickerModifier;
 }) => {
   const color = useThemeStore(
-    (state) => state.colors[state.platform][state.theme][colorKey]
+    (state) => state.colors[state.platform][state.theme][colorKey],
   );
 
   const [popoverWidth, setPopoverWidth] = useState(0);
 
   const popoverRef = useRef<HTMLButtonElement>(null);
+
+  // Use the color picker shortcuts hook
+  useColorPickerShortcuts(modifier);
 
   const updatePopoverWidth = () => {
     if (popoverRef.current) {
@@ -39,34 +50,21 @@ export const ColorPicker = ({
   }, []);
 
   return (
-    <Popover className='relative border-l first:border-none group/color-picker'>
+    <Popover className="group/color-picker relative border-l first:border-none">
       <PopoverButton
         ref={popoverRef}
+        data-color-picker-modifier={modifier}
         className={cn(
-          "outline-none",
-          "w-full px-4 py-2 flex justify-between items-start",
-          "group-hover/color-picker:hover:bg-border/35 group-data-open/color-picker:!bg-border/50"
+          "flex w-full items-start justify-between px-4 py-2",
+          "group-hover/color-picker:hover:bg-border/35 group-data-open/color-picker:!bg-border/50",
+          "data-focus:-outline-offset-2 data-focus:outline-blue-500",
         )}
       >
         <ColorDisplayButton title={title} color={color} />
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='0 0 16 16'
-          fill='currentColor'
-          className='mt-2 size-4 text-border dark:text-muted-foreground/25 group-hover/color-picker:text-muted-foreground/75 group-data-[open]/color-picker:text-muted-foreground/75'
-          aria-hidden
-        >
-          <path
-            fillRule='evenodd'
-            d='M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z'
-            clipRule='evenodd'
-          />
-        </svg>
+        <PencilIcon className="text-border dark:text-muted-foreground/25 group-hover/color-picker:text-muted-foreground/75 group-data-[open]/color-picker:text-muted-foreground/75 mt-2 size-4" />
       </PopoverButton>
 
-      <PopoverPanel focus anchor='bottom'>
-        <ColorPickerPanel colorKey={colorKey} width={popoverWidth} />
-      </PopoverPanel>
+      <ColorPickerPanel colorKey={colorKey} width={popoverWidth} />
     </Popover>
   );
 };
