@@ -56,10 +56,10 @@ export function ThemeCodeGen() {
     <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
       <div className="line-t lg:line-t/half mt-8 flex items-stretch justify-between">
         <TabList>
-          <Tab className="hover:bg-border/35 data-selected:bg-border/50 border-r p-3 focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 sm:px-6">
+          <Tab className="data-hover:not-data-selected:bg-border/35 data-selected:from-border/50 data-selected:to-border border-r p-3 focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 data-selected:bg-gradient-to-b sm:px-6">
             <TextMono>globals.css</TextMono>
           </Tab>
-          <Tab className="hover:bg-border/35 data-selected:bg-border/50 border-r p-3 focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 sm:px-6">
+          <Tab className="data-hover:not-data-selected:bg-border/35 data-selected:from-border/50 data-selected:to-border border-r p-3 focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 data-selected:bg-gradient-to-b sm:px-6">
             <TextMono>colors.ts</TextMono>
           </Tab>
         </TabList>

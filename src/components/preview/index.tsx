@@ -1,11 +1,12 @@
 import { Frame } from "./frame";
-import { ConsentWelcome } from "./svg/consent-welcome";
+import { Messaging } from "./svg/messaging";
 
 export const Preview = () => {
   return (
-    <div className='flex flex-col gap-4 justify-center items-center flex-1'>
+    <div className="flex flex-1 flex-col items-center justify-center gap-4">
       <Frame>
-        <ConsentWelcome />
+        {/* <ConsentWelcome /> */}
+        <Messaging />
       </Frame>
     </div>
   );

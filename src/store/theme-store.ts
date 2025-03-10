@@ -3,7 +3,11 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { produce } from "immer";
 import Color from "color";
 import { hashStorage } from "./hash-storage";
-import { generateColorsFromPrimary } from "@/lib/generator";
+import {
+  AccentColorGenerator,
+  PrimaryColorGenerator,
+  SecondaryColorGenerator,
+} from "@/lib/color-generator";
 
 type Platform = "ios" | "android" | "web";
 type Theme = "light" | "dark";
@@ -49,9 +53,9 @@ interface ThemeState {
   sync: SyncState;
   setPlatform: (platform: Platform) => void;
   setTheme: (theme: Theme) => void;
-  setPrimaryColor: (
-    precomputedColors: ReturnType<typeof generateColorsFromPrimary>
-  ) => void;
+  setPrimaryColor: (computedColors: PrimaryColorGenerator) => void;
+  setSecondaryColor: (computedColors: SecondaryColorGenerator) => void;
+  setAccentColor: (computedColors: AccentColorGenerator) => void;
   setColor: (key: keyof ColorState, value: string) => void;
   setSync: (syncColor: keyof SyncColor, value: boolean) => void;
   reset: () => void;
@@ -304,41 +308,73 @@ export const useThemeStore = create<ThemeState>()(
         set(
           produce((state) => {
             state.platform = platform;
-          })
+          }),
         ),
       setTheme: (theme) =>
         set(
           produce((state) => {
             state.theme = theme;
-          })
+          }),
         ),
-      setPrimaryColor: (
-        precomputedColors: ReturnType<typeof generateColorsFromPrimary>
-      ) =>
+      setPrimaryColor: (computedColors: PrimaryColorGenerator) =>
         set(
           produce((state: ThemeState) => {
-            const newColors = precomputedColors;
-            state.colors[state.platform].light = {
-              ...state.colors[state.platform].light,
-              ...newColors.light,
+            state.colors[state.platform] = {
+              ...state.colors[state.platform],
+              light: {
+                ...state.colors[state.platform].light,
+                ...computedColors.light,
+              },
+              dark: {
+                ...state.colors[state.platform].dark,
+                ...computedColors.dark,
+              },
             };
-            state.colors[state.platform].dark = {
-              ...state.colors[state.platform].dark,
-              ...newColors.dark,
-            };
-          })
+          }),
         ),
-      setColor: (key, value) =>
+      setSecondaryColor: (computedColors: SecondaryColorGenerator) =>
+        set(
+          produce((state: ThemeState) => {
+            state.colors[state.platform] = {
+              ...state.colors[state.platform],
+              light: {
+                ...state.colors[state.platform].light,
+                ...computedColors.light,
+              },
+              dark: {
+                ...state.colors[state.platform].dark,
+                ...computedColors.dark,
+              },
+            };
+          }),
+        ),
+      setAccentColor: (computedColors: AccentColorGenerator) =>
+        set(
+          produce((state: ThemeState) => {
+            state.colors[state.platform] = {
+              ...state.colors[state.platform],
+              light: {
+                ...state.colors[state.platform].light,
+                ...computedColors.light,
+              },
+              dark: {
+                ...state.colors[state.platform].dark,
+                ...computedColors.dark,
+              },
+            };
+          }),
+        ),
+      setColor: (key: keyof ColorState, value: string) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform][state.theme][key] = value;
-          })
+          }),
         ),
-      setSync: (syncColor, value) =>
+      setSync: (syncColor: keyof SyncColor, value: boolean) =>
         set(
           produce((state: ThemeState) => {
             state.sync[state.platform][syncColor] = value;
-          })
+          }),
         ),
       reset: () => {
         // Clear the hash storage
@@ -364,8 +400,8 @@ export const useThemeStore = create<ThemeState>()(
           useThemeStore.getState().reset();
         }
       },
-    }
-  )
+    },
+  ),
 );
 
 // Validate the state structure and color values

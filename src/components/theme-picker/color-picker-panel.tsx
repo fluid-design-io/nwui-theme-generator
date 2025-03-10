@@ -3,7 +3,7 @@ import { SyncColor, useThemeStore } from "@/store/theme-store";
 import { SyncControls } from "./sync-controls";
 import { cn } from "@/lib/utils";
 import { startTransition } from "react";
-import { generateColorsFromPrimary } from "@/lib/generator";
+import { getColorGenerator } from "@/lib/color-generator";
 import { PopoverPanel } from "@headlessui/react";
 
 interface ColorPickerPanelProps {
@@ -27,21 +27,41 @@ export const ColorPickerPanel = ({
   const setSync = useThemeStore((state) => state.setSync);
   const setColor = useThemeStore((state) => state.setColor);
   const setPrimaryColor = useThemeStore((state) => state.setPrimaryColor);
+  const setSecondaryColor = useThemeStore((state) => state.setSecondaryColor);
+  const setAccentColor = useThemeStore((state) => state.setAccentColor);
 
   // const [colorInput, setColorInput] = useState(color);
 
   const updateColor = (newColor: string) => {
     startTransition(() => {
-      if (colorKey === "primary") {
-        const newColors = generateColorsFromPrimary(
-          newColor,
-          theme,
-          platform,
-          sync,
-        );
-        setPrimaryColor(newColors);
-      } else {
-        setColor(colorKey, newColor);
+      const generator = getColorGenerator(platform);
+      switch (colorKey) {
+        case "primary":
+          const newColors = generator.generateFromPrimary(
+            newColor,
+            theme,
+            sync,
+          );
+          setPrimaryColor(newColors);
+          break;
+        case "secondary":
+          const newSecondaryColors = generator.generateFromSecondary(
+            newColor,
+            theme,
+            sync,
+          );
+          setSecondaryColor(newSecondaryColors);
+          break;
+        case "accent":
+          const newAccentColors = generator.generateFromAccent(
+            newColor,
+            theme,
+            sync,
+          );
+          setAccentColor(newAccentColors);
+          break;
+        default:
+          setColor(colorKey, newColor);
       }
     });
   };

@@ -6,12 +6,18 @@ import { SyncColor, useThemeStore } from "@/store/theme-store";
 import { useEffect, useRef, useState } from "react";
 import { ColorDisplayButton } from "./color-display-button";
 import { ColorPickerPanel } from "./color-picker-panel";
-import { PencilIcon } from "@heroicons/react/16/solid";
+import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 
 import {
   ColorPickerModifier,
   useColorPickerShortcuts,
 } from "@/hooks/use-theme-shortcuts";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu,
+} from "../ui/dropdown";
 
 export const ColorPicker = ({
   title,
@@ -22,6 +28,7 @@ export const ColorPicker = ({
   colorKey: keyof (SyncColor & { muted: string });
   modifier: ColorPickerModifier;
 }) => {
+  const platform = useThemeStore((state) => state.platform);
   const color = useThemeStore(
     (state) => state.colors[state.platform][state.theme][colorKey],
   );
@@ -50,21 +57,42 @@ export const ColorPicker = ({
   }, []);
 
   return (
-    <Popover className="group/color-picker relative border-l first:border-none">
-      <PopoverButton
-        ref={popoverRef}
-        data-color-picker-modifier={modifier}
-        className={cn(
-          "flex w-full items-start justify-between px-4 py-2",
-          "group-hover/color-picker:hover:bg-border/35 group-data-open/color-picker:!bg-border/50",
-          "data-focus:-outline-offset-2 data-focus:outline-blue-500",
-        )}
-      >
-        <ColorDisplayButton title={title} color={color} />
-        <PencilIcon className="text-border dark:text-muted-foreground/25 group-hover/color-picker:text-muted-foreground/75 group-data-[open]/color-picker:text-muted-foreground/75 mt-2 size-4" />
-      </PopoverButton>
+    <div className="relative border-l first:border-none">
+      <Dropdown>
+        <DropdownButton
+          className="group/options !absolute top-0 right-0 rounded-none data-focus:inset-ring-2 data-focus:inset-ring-blue-500"
+          plain
+        >
+          <EllipsisVerticalIcon className="text-border mt-2 size-4 opacity-35" />
+          <span className="sr-only">Options</span>
+        </DropdownButton>
+        <DropdownMenu>
+          <DropdownItem disabled={platform === "ios"}>
+            Copy from iOS
+          </DropdownItem>
+          <DropdownItem disabled={platform === "android"}>
+            Copy from Android
+          </DropdownItem>
+          <DropdownItem disabled={platform === "web"}>
+            Copy from Web
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Popover className="group/color-picker">
+        <PopoverButton
+          ref={popoverRef}
+          data-color-picker-modifier={modifier}
+          className={cn(
+            "flex w-full items-start justify-between px-4 py-2",
+            "group-hover/color-picker:hover:bg-border/35 group-data-open/color-picker:!bg-border/50",
+            "data-focus:-outline-offset-2 data-focus:outline-blue-500",
+          )}
+        >
+          <ColorDisplayButton title={title} color={color} />
+        </PopoverButton>
 
-      <ColorPickerPanel colorKey={colorKey} width={popoverWidth} />
-    </Popover>
+        <ColorPickerPanel colorKey={colorKey} width={popoverWidth} />
+      </Popover>
+    </div>
   );
 };
