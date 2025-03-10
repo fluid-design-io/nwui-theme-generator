@@ -1,15 +1,11 @@
-"use client";
-
-import { useThemeStore } from "@/store/theme-store";
-import { ConsentWelcomeIos } from "./consent-welcome/ios";
 import { Frame } from "./frame";
+import { ConsentWelcome } from "./svg/consent-welcome";
 
 export const Preview = () => {
-  const { mode } = useThemeStore();
   return (
     <div className='flex flex-col gap-4 justify-center items-center flex-1'>
-      <Frame variant={mode}>
-        <ConsentWelcomeIos className='w-full h-full' />
+      <Frame>
+        <ConsentWelcome />
       </Frame>
     </div>
   );

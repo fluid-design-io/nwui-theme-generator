@@ -40,42 +40,58 @@ export function ThemeCodeGen() {
   :root {
     --background: ${getRgbValues(colors.light.ios.background)};
     --foreground: ${getRgbValues(colors.light.ios.foreground)};
-    --card: 255 255 255;
-    --card-foreground: 8 28 30;
-    --popover: 230 230 235;
-    --popover-foreground: 0 0 0;
+    --card: ${getRgbValues(colors.light.ios.card)};
+    --card-foreground: ${getRgbValues(colors.light.ios.cardForeground)};
+    --popover: ${getRgbValues(colors.light.ios.popover)};
+    --popover-foreground: ${getRgbValues(colors.light.ios.popoverForeground)};
     --primary: ${getRgbValues(colors.light.ios.primary)};
-    --primary-foreground: 255 255 255;
+    --primary-foreground: ${getRgbValues(colors.light.ios.primaryForeground)};
     --secondary: ${getRgbValues(colors.light.ios.secondary)};
-    --secondary-foreground: 255 255 255;
+    --secondary-foreground: ${getRgbValues(
+      colors.light.ios.secondaryForeground
+    )};
     --muted: ${getRgbValues(colors.light.ios.muted)};
     --muted-foreground: ${getRgbValues(colors.light.ios.mutedForeground)};
     --accent: ${getRgbValues(colors.light.ios.accent)};
-    --accent-foreground: 255 255 255;
+    --accent-foreground: ${getRgbValues(colors.light.ios.accentForeground)};
     --destructive: ${getRgbValues(colors.light.ios.destructive)};
-    --destructive-foreground: 255 255 255;
+    --destructive-foreground: ${getRgbValues(
+      colors.light.ios.destructiveForeground
+    )};
     --border: ${getRgbValues(colors.light.ios.border)};
     --input: ${getRgbValues(colors.light.ios.input)};
     --ring: ${getRgbValues(colors.light.ios.ring)};
 
     --android-background: ${getRgbValues(colors.light.android.background)};
     --android-foreground: ${getRgbValues(colors.light.android.foreground)};
-    --android-card: 255 255 255;
-    --android-card-foreground: 24 28 35;
-    --android-popover: 215 217 228;
-    --android-popover-foreground: 0 0 0;
+    --android-card: ${getRgbValues(colors.light.android.card)};
+    --android-card-foreground: ${getRgbValues(
+      colors.light.android.cardForeground
+    )};
+    --android-popover: ${getRgbValues(colors.light.android.popover)};
+    --android-popover-foreground: ${getRgbValues(
+      colors.light.android.popoverForeground
+    )};
     --android-primary: ${getRgbValues(colors.light.android.primary)};
-    --android-primary-foreground: 255 255 255;
+    --android-primary-foreground: ${getRgbValues(
+      colors.light.android.primaryForeground
+    )};
     --android-secondary: ${getRgbValues(colors.light.android.secondary)};
-    --android-secondary-foreground: 20 55 108;
+    --android-secondary-foreground: ${getRgbValues(
+      colors.light.android.secondaryForeground
+    )};
     --android-muted: ${getRgbValues(colors.light.android.muted)};
     --android-muted-foreground: ${getRgbValues(
       colors.light.android.mutedForeground
     )};
     --android-accent: ${getRgbValues(colors.light.android.accent)};
-    --android-accent-foreground: 255 255 255;
+    --android-accent-foreground: ${getRgbValues(
+      colors.light.android.accentForeground
+    )};
     --android-destructive: ${getRgbValues(colors.light.android.destructive)};
-    --android-destructive-foreground: 255 255 255;
+    --android-destructive-foreground: ${getRgbValues(
+      colors.light.android.destructiveForeground
+    )};
     --android-border: ${getRgbValues(colors.light.android.border)};
     --android-input: ${getRgbValues(colors.light.android.input)};
     --android-ring: ${getRgbValues(colors.light.android.ring)};
@@ -85,42 +101,58 @@ export function ThemeCodeGen() {
     :root {
       --background: ${getRgbValues(colors.dark.ios.background)};
       --foreground: ${getRgbValues(colors.dark.ios.foreground)};
-      --card: 21 21 24;
-      --card-foreground: 255 255 255;
-      --popover: 40 40 42;
-      --popover-foreground: 255 255 255;
+      --card: ${getRgbValues(colors.dark.ios.card)};
+      --card-foreground: ${getRgbValues(colors.dark.ios.cardForeground)};
+      --popover: ${getRgbValues(colors.dark.ios.popover)};
+      --popover-foreground: ${getRgbValues(colors.dark.ios.popoverForeground)};
       --primary: ${getRgbValues(colors.dark.ios.primary)};
-      --primary-foreground: 255 255 255;
+      --primary-foreground: ${getRgbValues(colors.dark.ios.primaryForeground)};
       --secondary: ${getRgbValues(colors.dark.ios.secondary)};
-      --secondary-foreground: 255 255 255;
+      --secondary-foreground: ${getRgbValues(
+        colors.dark.ios.secondaryForeground
+      )};
       --muted: ${getRgbValues(colors.dark.ios.muted)};
       --muted-foreground: ${getRgbValues(colors.dark.ios.mutedForeground)};
       --accent: ${getRgbValues(colors.dark.ios.accent)};
-      --accent-foreground: 255 255 255;
+      --accent-foreground: ${getRgbValues(colors.dark.ios.accentForeground)};
       --destructive: ${getRgbValues(colors.dark.ios.destructive)};
-      --destructive-foreground: 255 255 255;
+      --destructive-foreground: ${getRgbValues(
+        colors.dark.ios.destructiveForeground
+      )};
       --border: ${getRgbValues(colors.dark.ios.border)};
       --input: ${getRgbValues(colors.dark.ios.input)};
       --ring: ${getRgbValues(colors.dark.ios.ring)};
 
       --android-background: ${getRgbValues(colors.dark.android.background)};
       --android-foreground: ${getRgbValues(colors.dark.android.foreground)};
-      --android-card: 16 19 27;
-      --android-card-foreground: 224 226 237;
-      --android-popover: 39 42 50;
-      --android-popover-foreground: 224 226 237;
+      --android-card: ${getRgbValues(colors.dark.android.card)};
+      --android-card-foreground: ${getRgbValues(
+        colors.dark.android.cardForeground
+      )};
+      --android-popover: ${getRgbValues(colors.dark.android.popover)};
+      --android-popover-foreground: ${getRgbValues(
+        colors.dark.android.popoverForeground
+      )};
       --android-primary: ${getRgbValues(colors.dark.android.primary)};
-      --android-primary-foreground: 255 255 255;
+      --android-primary-foreground: ${getRgbValues(
+        colors.dark.android.primaryForeground
+      )};
       --android-secondary: ${getRgbValues(colors.dark.android.secondary)};
-      --android-secondary-foreground: 189 209 255;
+      --android-secondary-foreground: ${getRgbValues(
+        colors.dark.android.secondaryForeground
+      )};
       --android-muted: ${getRgbValues(colors.dark.android.muted)};
       --android-muted-foreground: ${getRgbValues(
         colors.dark.android.mutedForeground
       )};
       --android-accent: ${getRgbValues(colors.dark.android.accent)};
-      --android-accent-foreground: 238 177 255;
+      --android-accent-foreground: ${getRgbValues(
+        colors.dark.android.accentForeground
+      )};
       --android-destructive: ${getRgbValues(colors.dark.android.destructive)};
-      --android-destructive-foreground: 255 255 255;
+      --android-destructive-foreground: ${getRgbValues(
+        colors.dark.android.destructiveForeground
+      )};
       --android-border: ${getRgbValues(colors.dark.android.border)};
       --android-input: ${getRgbValues(colors.dark.android.input)};
       --android-ring: ${getRgbValues(colors.dark.android.ring)};
@@ -257,7 +289,8 @@ const CopyButton = ({ onCopy }: { onCopy: () => void }) => {
         setTimeout(() => setIsCopied(false), 2000);
       }}
       aria-label='Copy code to clipboard'
-      className='p-4 border-l hover:bg-border/35 text-muted-foreground/50 data-hover:text-muted-foreground data-focus:text-muted-foreground'
+      data-copied={isCopied}
+      className='p-4 border-l hover:bg-border/35 text-muted-foreground/50 data-hover:text-muted-foreground data-focus:text-muted-foreground data-[copied=true]:text-lime-500'
     >
       {isCopied ? (
         <svg

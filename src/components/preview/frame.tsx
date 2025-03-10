@@ -1,26 +1,32 @@
-import { cva, VariantProps } from "class-variance-authority";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useThemeStore } from "@/store/theme-store";
+import { cva } from "class-variance-authority";
 
 const frameVariants = cva(
-  "ring-5 ring-border transition-all overflow-hidden flex m-4 lg:m-8 2xl:h-full",
+  "ring-border transition-all overflow-hidden flex m-4 lg:m-8 2xl:h-full",
   {
     variants: {
       variant: {
-        ios: "rounded-4xl",
-        android: "rounded-md",
-        web: "rounded-md",
+        ios: "ring-5 rounded-[2.5rem]",
+        android: "ring-5 rounded-2xl",
+        web: "ring-2 rounded-md",
       },
     },
   }
 );
 
-type FrameVariant = VariantProps<typeof frameVariants>["variant"];
-
-export const Frame = ({
-  children,
-  variant,
-}: {
-  children: React.ReactNode;
-  variant: FrameVariant;
-}) => {
-  return <div className={frameVariants({ variant })}>{children}</div>;
+export const Frame = ({ children }: { children: React.ReactNode }) => {
+  const { platform, theme } = useThemeStore();
+  return (
+    <div
+      className={cn(frameVariants({ variant: platform }), {
+        "scheme-dark": theme === "dark",
+        "scheme-light": theme === "light",
+      })}
+    >
+      {children}
+    </div>
+  );
 };

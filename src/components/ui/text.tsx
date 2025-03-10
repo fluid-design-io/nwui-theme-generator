@@ -14,6 +14,18 @@ export function Text({
   );
 }
 
+export function Caption({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"p">) {
+  return (
+    <p
+      {...props}
+      className={clsx(className, "text-xs/4 text-muted-foreground")}
+    />
+  );
+}
+
 export function TextMono({
   className,
   ...props

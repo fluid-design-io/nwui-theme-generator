@@ -143,3 +143,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.react-colorful {
+  width: var(--popover-width) !important;
+  height: var(--popover-width) !important;
+}
+
+.react-colorful__saturation,
+.react-colorful__last-control {
+  border-radius: 0px !important;
+}
