@@ -31,6 +31,10 @@ export function ThemeCodeGen() {
   const colors = useThemeStore((state) => state.colors);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(selectedIndex === 0 ? globalsCss : colorsTs);
+  };
+
   const globalsCss = dedent`
 @tailwind base;
 @tailwind components;
@@ -246,13 +250,7 @@ export { COLORS };
             <TextMono>colors.ts</TextMono>
           </Tab>
         </TabList>
-        <CopyButton
-          onCopy={() =>
-            navigator.clipboard.writeText(
-              selectedIndex === 0 ? globalsCss : colorsTs
-            )
-          }
-        />
+        <CopyButton onCopy={handleCopy} />
       </div>
       <TabPanels className='line-y lg:line-y/half'>
         <TabPanel>
