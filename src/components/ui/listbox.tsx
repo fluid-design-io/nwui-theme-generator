@@ -43,7 +43,7 @@ export function Listbox<T>({
           options={options}
           placeholder={
             placeholder && (
-              <span className="block truncate text-zinc-500">
+              <span className="text-muted-foreground block truncate">
                 {placeholder}
               </span>
             )
@@ -56,7 +56,7 @@ export function Listbox<T>({
             // Horizontal padding
             "pr-[calc(--spacing(7)-1px)] pl-[calc(--spacing(3.5)-1px)] sm:pl-[calc(--spacing(3)-1px)]",
             // Typography
-            "text-left text-base/6 placeholder:text-zinc-500 sm:text-sm/6 forced-colors:text-[CanvasText]",
+            "placeholder:text-muted-foreground text-left text-base/6 sm:text-sm/6 forced-colors:text-[CanvasText]",
             // Border
             "border-border border",
             // Background color
@@ -85,9 +85,9 @@ export function Listbox<T>({
           // Handle scrolling when menu won't fit in viewport
           "overflow-y-scroll overscroll-contain",
           // Popover background
-          "bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75",
+          "bg-background/75 backdrop-blur-xl",
           // Shadows
-          "shadow-lg ring-1 ring-zinc-950/10 dark:ring-white/10 dark:ring-inset",
+          "ring-border shadow-lg ring-1 dark:ring-inset",
           // Transitions
           "transition-opacity duration-100 ease-in data-closed:data-leave:opacity-0 data-transition:pointer-events-none",
         )}
@@ -111,7 +111,7 @@ export function ListboxOption<T>({
     "flex min-w-0 items-center",
     // Icons
     "*:data-[slot=icon]:size-5 *:data-[slot=icon]:shrink-0 sm:*:data-[slot=icon]:size-4",
-    "*:data-[slot=icon]:text-zinc-500 group-data-focus/option:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400",
+    "*:data-[slot=icon]:text-muted-foreground group-data-focus/option:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400",
     "forced-colors:*:data-[slot=icon]:text-[CanvasText] forced-colors:group-data-focus/option:*:data-[slot=icon]:text-[Canvas]",
     // Avatars
     "*:data-[slot=avatar]:-mx-0.5 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:size-5",
@@ -132,9 +132,9 @@ export function ListboxOption<T>({
               // Basic layout
               "group/option grid cursor-default grid-cols-[--spacing(5)_1fr] items-baseline gap-x-2 rounded-lg py-2.5 pr-3.5 pl-2 sm:grid-cols-[--spacing(4)_1fr] sm:py-1.5 sm:pr-3 sm:pl-1.5",
               // Typography
-              "text-base/6 sm:text-sm/6 dark:text-white forced-colors:text-[CanvasText]",
+              "text-foreground text-base/6 sm:text-sm/6 forced-colors:text-[CanvasText]",
               // Focus
-              "outline-hidden data-focus:bg-blue-500 data-focus:text-white",
+              "data-focus:text-foreground outline-hidden data-focus:bg-blue-500",
               // Forced colors mode
               "forced-color-adjust-none forced-colors:data-focus:bg-[Highlight] forced-colors:data-focus:text-[HighlightText]",
               // Disabled
@@ -189,7 +189,7 @@ export function ListboxDescription({
       {...props}
       className={clsx(
         className,
-        "flex flex-1 overflow-hidden text-zinc-500 group-data-focus/option:text-white before:w-2 before:min-w-0 before:shrink dark:text-zinc-400",
+        "text-muted-foreground flex flex-1 overflow-hidden group-data-focus/option:text-white before:w-2 before:min-w-0 before:shrink dark:text-zinc-400",
       )}
     >
       <span className="flex-1 truncate">{children}</span>

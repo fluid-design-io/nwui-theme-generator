@@ -32,15 +32,18 @@ export const PreviewDropDown = () => {
       aria-label="Preview Screens"
       value={preview}
       onChange={setPreview}
-      className="-mt-11 *:data-[slot=selected-option]:border-r-0 *:data-[slot=selected-option]:border-b-0 sm:-mt-9 lg:-ml-[1px] lg:min-w-[calc(100%+1px)]"
+      className="*:data-[slot=selected-option]:border-r-0 *:data-[slot=selected-option]:border-b-0 sm:-mt-[calc(46px-1px)] lg:-ml-[1px] lg:min-w-[calc(100%+1px)]"
     >
       {previewOptions.map((option) => (
         <ListboxOption
           key={option.value}
           value={option.value}
           aria-selected={preview === option.value}
+          className="py-1.25 lg:px-3"
         >
-          <TextMono>{option.label}</TextMono>
+          <TextMono className="group-data-active/option:text-white">
+            {option.label}
+          </TextMono>
         </ListboxOption>
       ))}
     </Listbox>
