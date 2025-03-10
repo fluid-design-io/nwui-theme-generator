@@ -37,7 +37,7 @@ interface ColorState {
   root: string;
 }
 
-type ColorStates = Record<Theme, Record<Platform, ColorState>>;
+type ColorStates = Record<Platform, Record<Theme, ColorState>>;
 
 type SyncColor = Pick<ColorState, "primary" | "secondary" | "accent">;
 type SyncState = Record<Platform, Record<keyof SyncColor, boolean>>;
@@ -49,17 +49,18 @@ interface ThemeState {
   sync: SyncState;
   setPlatform: (platform: Platform) => void;
   setTheme: (theme: Theme) => void;
-  setPrimaryColor: (color: string) => void;
+  setPrimaryColor: (
+    precomputedColors: ReturnType<typeof generateColorsFromPrimary>
+  ) => void;
   setColor: (key: keyof ColorState, value: string) => void;
   setSync: (syncColor: keyof SyncColor, value: boolean) => void;
-  generateColors: (primary: string) => void;
   reset: () => void;
   getCssVariables: () => string;
 }
 
 export const DEFAULT_COLORS: ColorStates = {
-  light: {
-    ios: {
+  ios: {
+    light: {
       grey6: "#f2f2f7",
       grey5: "#e6e6eb",
       grey4: "#d2d2d7",
@@ -87,65 +88,7 @@ export const DEFAULT_COLORS: ColorStates = {
       input: "#d2d2d7",
       ring: "#e6e6eb",
     },
-    android: {
-      grey6: "#f9f9ff",
-      grey5: "#d7d9e4",
-      grey4: "#b1b5c2",
-      grey3: "#717786",
-      grey2: "#414754",
-      grey: "#282c35",
-      background: "#F9F9FF",
-      foreground: "#000000",
-      root: "#ffffff",
-      card: "#ffffff",
-      cardForeground: "#181c23",
-      popover: "#d7d9e4",
-      popoverForeground: "#000000",
-      destructive: "#b91a1a",
-      destructiveForeground: "#ffffff",
-      primary: "#65558F",
-      primaryForeground: "#ffffff",
-      secondary: "#b0c9ff",
-      secondaryForeground: "#ffffff",
-      accent: "#a949cc",
-      accentForeground: "#ffffff",
-      muted: "#c1c6d7",
-      mutedForeground: "#414754",
-      border: "#d7d9e4",
-      input: "#d2d2d7",
-      ring: "#d7d9e4",
-    },
-    web: {
-      grey6: "#f9f9ff",
-      grey5: "#d7d9e4",
-      grey4: "#b1b5c2",
-      grey3: "#717786",
-      grey2: "#414754",
-      grey: "#282c35",
-      background: "#F9F9FF",
-      foreground: "#000000",
-      root: "#ffffff",
-      card: "#ffffff",
-      cardForeground: "#181c23",
-      popover: "#d7d9e4",
-      popoverForeground: "#000000",
-      destructive: "#b91a1a",
-      destructiveForeground: "#ffffff",
-      primary: "#65558F",
-      primaryForeground: "#ffffff",
-      secondary: "#b0c9ff",
-      secondaryForeground: "#ffffff",
-      accent: "#a949cc",
-      accentForeground: "#ffffff",
-      muted: "#c1c6d7",
-      mutedForeground: "#414754",
-      border: "#d7d9e4",
-      input: "#d2d2d7",
-      ring: "#d7d9e4",
-    },
-  },
-  dark: {
-    ios: {
+    dark: {
       grey6: "#151518",
       grey5: "#282828",
       grey4: "#333333",
@@ -173,7 +116,37 @@ export const DEFAULT_COLORS: ColorStates = {
       input: "#333333",
       ring: "#282828",
     },
-    android: {
+  },
+  android: {
+    light: {
+      grey6: "#f9f9ff",
+      grey5: "#d7d9e4",
+      grey4: "#b1b5c2",
+      grey3: "#717786",
+      grey2: "#414754",
+      grey: "#282c35",
+      background: "#F9F9FF",
+      foreground: "#000000",
+      root: "#ffffff",
+      card: "#ffffff",
+      cardForeground: "#181c23",
+      popover: "#d7d9e4",
+      popoverForeground: "#000000",
+      destructive: "#b91a1a",
+      destructiveForeground: "#ffffff",
+      primary: "#65558F",
+      primaryForeground: "#ffffff",
+      secondary: "#b0c9ff",
+      secondaryForeground: "#ffffff",
+      accent: "#a949cc",
+      accentForeground: "#ffffff",
+      muted: "#c1c6d7",
+      mutedForeground: "#414754",
+      border: "#d7d9e4",
+      input: "#d2d2d7",
+      ring: "#d7d9e4",
+    },
+    dark: {
       grey6: "#10131b",
       grey5: "#282c35",
       grey4: "#313540",
@@ -201,7 +174,37 @@ export const DEFAULT_COLORS: ColorStates = {
       input: "#333333",
       ring: "#211e26",
     },
-    web: {
+  },
+  web: {
+    light: {
+      grey6: "#f9f9ff",
+      grey5: "#d7d9e4",
+      grey4: "#b1b5c2",
+      grey3: "#717786",
+      grey2: "#414754",
+      grey: "#282c35",
+      background: "#F9F9FF",
+      foreground: "#000000",
+      root: "#ffffff",
+      card: "#ffffff",
+      cardForeground: "#181c23",
+      popover: "#d7d9e4",
+      popoverForeground: "#000000",
+      destructive: "#b91a1a",
+      destructiveForeground: "#ffffff",
+      primary: "#65558F",
+      primaryForeground: "#ffffff",
+      secondary: "#b0c9ff",
+      secondaryForeground: "#ffffff",
+      accent: "#a949cc",
+      accentForeground: "#ffffff",
+      muted: "#c1c6d7",
+      mutedForeground: "#414754",
+      border: "#d7d9e4",
+      input: "#d2d2d7",
+      ring: "#d7d9e4",
+    },
+    dark: {
       grey6: "#10131b",
       grey5: "#282c35",
       grey4: "#313540",
@@ -253,18 +256,7 @@ const DEFAULT_SYNC: SyncState = {
 const getDefaultState = () => ({
   platform: "ios" as Platform,
   theme: "light" as Theme,
-  colors: {
-    light: {
-      ios: DEFAULT_COLORS.light.ios,
-      android: DEFAULT_COLORS.light.android,
-      web: DEFAULT_COLORS.light.web,
-    },
-    dark: {
-      ios: DEFAULT_COLORS.dark.ios,
-      android: DEFAULT_COLORS.dark.android,
-      web: DEFAULT_COLORS.dark.web,
-    },
-  },
+  colors: DEFAULT_COLORS,
   sync: DEFAULT_SYNC,
 });
 
@@ -320,55 +312,32 @@ export const useThemeStore = create<ThemeState>()(
             state.theme = theme;
           })
         ),
-      setPrimaryColor: (color) =>
+      setPrimaryColor: (
+        precomputedColors: ReturnType<typeof generateColorsFromPrimary>
+      ) =>
         set(
           produce((state: ThemeState) => {
-            const newColors = generateColorsFromPrimary(
-              color,
-              state.theme,
-              state.platform
-            );
-            state.colors = {
-              ...state.colors,
-              [state.theme]: {
-                ...state.colors[state.theme],
-                [state.platform]: {
-                  ...state.colors[state.theme][state.platform],
-                  ...newColors,
-                },
-              },
+            const newColors = precomputedColors;
+            state.colors[state.platform].light = {
+              ...state.colors[state.platform].light,
+              ...newColors.light,
+            };
+            state.colors[state.platform].dark = {
+              ...state.colors[state.platform].dark,
+              ...newColors.dark,
             };
           })
         ),
       setColor: (key, value) =>
         set(
           produce((state: ThemeState) => {
-            state.colors[state.theme][state.platform][key] = value;
+            state.colors[state.platform][state.theme][key] = value;
           })
         ),
       setSync: (syncColor, value) =>
         set(
           produce((state: ThemeState) => {
             state.sync[state.platform][syncColor] = value;
-          })
-        ),
-      generateColors: (primary) =>
-        set(
-          produce((state: ThemeState) => {
-            state.colors = {
-              ...state.colors,
-              [state.theme]: {
-                ...state.colors[state.theme],
-                [state.platform]: {
-                  ...state.colors[state.theme][state.platform],
-                  ...generateColorsFromPrimary(
-                    primary,
-                    state.theme,
-                    state.platform
-                  ),
-                },
-              },
-            };
           })
         ),
       reset: () => {
@@ -379,7 +348,7 @@ export const useThemeStore = create<ThemeState>()(
       },
       getCssVariables: () => {
         const state = get();
-        return generateCssVariables(state.colors[state.theme][state.platform]);
+        return generateCssVariables(state.colors[state.platform][state.theme]);
       },
     }),
     {
@@ -425,21 +394,29 @@ function validateState(state: unknown): state is ThemeState {
     const themes: Theme[] = ["light", "dark"];
     const platforms: Platform[] = ["ios", "android", "web"];
 
-    for (const theme of themes) {
-      if (!s.colors[theme]) return false;
+    for (const platform of platforms) {
+      if (!s.colors[platform]) return false;
 
-      for (const platform of platforms) {
-        const colorSet = s.colors[theme][platform];
+      for (const theme of themes) {
+        const colorSet = s.colors[platform][theme];
         if (!colorSet) return false;
 
         // Check if all required color keys exist and are valid color values
         const requiredKeys: (keyof ColorState)[] = [
           "primary",
+          "primaryForeground",
           "secondary",
+          "secondaryForeground",
           "accent",
+          "accentForeground",
           "destructive",
+          "destructiveForeground",
           "background",
           "foreground",
+          "card",
+          "cardForeground",
+          "popover",
+          "popoverForeground",
           "muted",
           "mutedForeground",
           "border",
@@ -451,6 +428,7 @@ function validateState(state: unknown): state is ThemeState {
           "grey3",
           "grey2",
           "grey",
+          "root",
         ];
 
         for (const key of requiredKeys) {
@@ -471,4 +449,12 @@ function validateState(state: unknown): state is ThemeState {
   }
 }
 
-export type { Platform, ColorState, Theme, ThemeState };
+export type {
+  Platform,
+  ColorState,
+  ColorStates,
+  SyncColor,
+  SyncState,
+  Theme,
+  ThemeState,
+};

@@ -28,7 +28,7 @@ function getRgbValues(colorStr: string): string {
 }
 
 export function ThemeCodeGen() {
-  const { colors } = useThemeStore();
+  const colors = useThemeStore((state) => state.colors);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const globalsCss = dedent`
@@ -38,124 +38,124 @@ export function ThemeCodeGen() {
 
 @layer base {
   :root {
-    --background: ${getRgbValues(colors.light.ios.background)};
-    --foreground: ${getRgbValues(colors.light.ios.foreground)};
-    --card: ${getRgbValues(colors.light.ios.card)};
-    --card-foreground: ${getRgbValues(colors.light.ios.cardForeground)};
-    --popover: ${getRgbValues(colors.light.ios.popover)};
-    --popover-foreground: ${getRgbValues(colors.light.ios.popoverForeground)};
-    --primary: ${getRgbValues(colors.light.ios.primary)};
-    --primary-foreground: ${getRgbValues(colors.light.ios.primaryForeground)};
-    --secondary: ${getRgbValues(colors.light.ios.secondary)};
+    --background: ${getRgbValues(colors.ios.light.background)};
+    --foreground: ${getRgbValues(colors.ios.light.foreground)};
+    --card: ${getRgbValues(colors.ios.light.card)};
+    --card-foreground: ${getRgbValues(colors.ios.light.cardForeground)};
+    --popover: ${getRgbValues(colors.ios.light.popover)};
+    --popover-foreground: ${getRgbValues(colors.ios.light.popoverForeground)};
+    --primary: ${getRgbValues(colors.ios.light.primary)};
+    --primary-foreground: ${getRgbValues(colors.ios.light.primaryForeground)};
+    --secondary: ${getRgbValues(colors.ios.light.secondary)};
     --secondary-foreground: ${getRgbValues(
-      colors.light.ios.secondaryForeground
+      colors.ios.light.secondaryForeground
     )};
-    --muted: ${getRgbValues(colors.light.ios.muted)};
-    --muted-foreground: ${getRgbValues(colors.light.ios.mutedForeground)};
-    --accent: ${getRgbValues(colors.light.ios.accent)};
-    --accent-foreground: ${getRgbValues(colors.light.ios.accentForeground)};
-    --destructive: ${getRgbValues(colors.light.ios.destructive)};
+    --muted: ${getRgbValues(colors.ios.light.muted)};
+    --muted-foreground: ${getRgbValues(colors.ios.light.mutedForeground)};
+    --accent: ${getRgbValues(colors.ios.light.accent)};
+    --accent-foreground: ${getRgbValues(colors.ios.light.accentForeground)};
+    --destructive: ${getRgbValues(colors.ios.light.destructive)};
     --destructive-foreground: ${getRgbValues(
-      colors.light.ios.destructiveForeground
+      colors.ios.light.destructiveForeground
     )};
-    --border: ${getRgbValues(colors.light.ios.border)};
-    --input: ${getRgbValues(colors.light.ios.input)};
-    --ring: ${getRgbValues(colors.light.ios.ring)};
+    --border: ${getRgbValues(colors.ios.light.border)};
+    --input: ${getRgbValues(colors.ios.light.input)};
+    --ring: ${getRgbValues(colors.ios.light.ring)};
 
-    --android-background: ${getRgbValues(colors.light.android.background)};
-    --android-foreground: ${getRgbValues(colors.light.android.foreground)};
-    --android-card: ${getRgbValues(colors.light.android.card)};
+    --android-background: ${getRgbValues(colors.android.light.background)};
+    --android-foreground: ${getRgbValues(colors.android.light.foreground)};
+    --android-card: ${getRgbValues(colors.android.light.card)};
     --android-card-foreground: ${getRgbValues(
-      colors.light.android.cardForeground
+      colors.android.light.cardForeground
     )};
-    --android-popover: ${getRgbValues(colors.light.android.popover)};
+    --android-popover: ${getRgbValues(colors.android.light.popover)};
     --android-popover-foreground: ${getRgbValues(
-      colors.light.android.popoverForeground
+      colors.android.light.popoverForeground
     )};
-    --android-primary: ${getRgbValues(colors.light.android.primary)};
+    --android-primary: ${getRgbValues(colors.android.light.primary)};
     --android-primary-foreground: ${getRgbValues(
-      colors.light.android.primaryForeground
+      colors.android.light.primaryForeground
     )};
-    --android-secondary: ${getRgbValues(colors.light.android.secondary)};
+    --android-secondary: ${getRgbValues(colors.android.light.secondary)};
     --android-secondary-foreground: ${getRgbValues(
-      colors.light.android.secondaryForeground
+      colors.android.light.secondaryForeground
     )};
-    --android-muted: ${getRgbValues(colors.light.android.muted)};
+    --android-muted: ${getRgbValues(colors.android.light.muted)};
     --android-muted-foreground: ${getRgbValues(
-      colors.light.android.mutedForeground
+      colors.android.light.mutedForeground
     )};
-    --android-accent: ${getRgbValues(colors.light.android.accent)};
+    --android-accent: ${getRgbValues(colors.android.light.accent)};
     --android-accent-foreground: ${getRgbValues(
-      colors.light.android.accentForeground
+      colors.android.light.accentForeground
     )};
-    --android-destructive: ${getRgbValues(colors.light.android.destructive)};
+    --android-destructive: ${getRgbValues(colors.android.light.destructive)};
     --android-destructive-foreground: ${getRgbValues(
-      colors.light.android.destructiveForeground
+      colors.android.light.destructiveForeground
     )};
-    --android-border: ${getRgbValues(colors.light.android.border)};
-    --android-input: ${getRgbValues(colors.light.android.input)};
-    --android-ring: ${getRgbValues(colors.light.android.ring)};
+    --android-border: ${getRgbValues(colors.android.light.border)};
+    --android-input: ${getRgbValues(colors.android.light.input)};
+    --android-ring: ${getRgbValues(colors.android.light.ring)};
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --background: ${getRgbValues(colors.dark.ios.background)};
-      --foreground: ${getRgbValues(colors.dark.ios.foreground)};
-      --card: ${getRgbValues(colors.dark.ios.card)};
-      --card-foreground: ${getRgbValues(colors.dark.ios.cardForeground)};
-      --popover: ${getRgbValues(colors.dark.ios.popover)};
-      --popover-foreground: ${getRgbValues(colors.dark.ios.popoverForeground)};
-      --primary: ${getRgbValues(colors.dark.ios.primary)};
-      --primary-foreground: ${getRgbValues(colors.dark.ios.primaryForeground)};
-      --secondary: ${getRgbValues(colors.dark.ios.secondary)};
+      --background: ${getRgbValues(colors.ios.dark.background)};
+      --foreground: ${getRgbValues(colors.ios.dark.foreground)};
+      --card: ${getRgbValues(colors.ios.dark.card)};
+      --card-foreground: ${getRgbValues(colors.ios.dark.cardForeground)};
+      --popover: ${getRgbValues(colors.ios.dark.popover)};
+      --popover-foreground: ${getRgbValues(colors.ios.dark.popoverForeground)};
+      --primary: ${getRgbValues(colors.ios.dark.primary)};
+      --primary-foreground: ${getRgbValues(colors.ios.dark.primaryForeground)};
+      --secondary: ${getRgbValues(colors.ios.dark.secondary)};
       --secondary-foreground: ${getRgbValues(
-        colors.dark.ios.secondaryForeground
+        colors.ios.dark.secondaryForeground
       )};
-      --muted: ${getRgbValues(colors.dark.ios.muted)};
-      --muted-foreground: ${getRgbValues(colors.dark.ios.mutedForeground)};
-      --accent: ${getRgbValues(colors.dark.ios.accent)};
-      --accent-foreground: ${getRgbValues(colors.dark.ios.accentForeground)};
-      --destructive: ${getRgbValues(colors.dark.ios.destructive)};
+      --muted: ${getRgbValues(colors.ios.dark.muted)};
+      --muted-foreground: ${getRgbValues(colors.ios.dark.mutedForeground)};
+      --accent: ${getRgbValues(colors.ios.dark.accent)};
+      --accent-foreground: ${getRgbValues(colors.ios.dark.accentForeground)};
+      --destructive: ${getRgbValues(colors.ios.dark.destructive)};
       --destructive-foreground: ${getRgbValues(
-        colors.dark.ios.destructiveForeground
+        colors.ios.dark.destructiveForeground
       )};
-      --border: ${getRgbValues(colors.dark.ios.border)};
-      --input: ${getRgbValues(colors.dark.ios.input)};
-      --ring: ${getRgbValues(colors.dark.ios.ring)};
+      --border: ${getRgbValues(colors.ios.dark.border)};
+      --input: ${getRgbValues(colors.ios.dark.input)};
+      --ring: ${getRgbValues(colors.ios.dark.ring)};
 
-      --android-background: ${getRgbValues(colors.dark.android.background)};
-      --android-foreground: ${getRgbValues(colors.dark.android.foreground)};
-      --android-card: ${getRgbValues(colors.dark.android.card)};
+      --android-background: ${getRgbValues(colors.android.dark.background)};
+      --android-foreground: ${getRgbValues(colors.android.dark.foreground)};
+      --android-card: ${getRgbValues(colors.android.dark.card)};
       --android-card-foreground: ${getRgbValues(
-        colors.dark.android.cardForeground
+        colors.android.dark.cardForeground
       )};
-      --android-popover: ${getRgbValues(colors.dark.android.popover)};
+      --android-popover: ${getRgbValues(colors.android.dark.popover)};
       --android-popover-foreground: ${getRgbValues(
-        colors.dark.android.popoverForeground
+        colors.android.dark.popoverForeground
       )};
-      --android-primary: ${getRgbValues(colors.dark.android.primary)};
+      --android-primary: ${getRgbValues(colors.android.dark.primary)};
       --android-primary-foreground: ${getRgbValues(
-        colors.dark.android.primaryForeground
+        colors.android.dark.primaryForeground
       )};
-      --android-secondary: ${getRgbValues(colors.dark.android.secondary)};
+      --android-secondary: ${getRgbValues(colors.android.dark.secondary)};
       --android-secondary-foreground: ${getRgbValues(
-        colors.dark.android.secondaryForeground
+        colors.android.dark.secondaryForeground
       )};
-      --android-muted: ${getRgbValues(colors.dark.android.muted)};
+      --android-muted: ${getRgbValues(colors.android.dark.muted)};
       --android-muted-foreground: ${getRgbValues(
-        colors.dark.android.mutedForeground
+        colors.android.dark.mutedForeground
       )};
-      --android-accent: ${getRgbValues(colors.dark.android.accent)};
+      --android-accent: ${getRgbValues(colors.android.dark.accent)};
       --android-accent-foreground: ${getRgbValues(
-        colors.dark.android.accentForeground
+        colors.android.dark.accentForeground
       )};
-      --android-destructive: ${getRgbValues(colors.dark.android.destructive)};
+      --android-destructive: ${getRgbValues(colors.android.dark.destructive)};
       --android-destructive-foreground: ${getRgbValues(
-        colors.dark.android.destructiveForeground
+        colors.android.dark.destructiveForeground
       )};
-      --android-border: ${getRgbValues(colors.dark.android.border)};
-      --android-input: ${getRgbValues(colors.dark.android.input)};
-      --android-ring: ${getRgbValues(colors.dark.android.ring)};
+      --android-border: ${getRgbValues(colors.android.dark.border)};
+      --android-input: ${getRgbValues(colors.android.dark.input)};
+      --android-ring: ${getRgbValues(colors.android.dark.ring)};
     }
   }
 }
@@ -168,32 +168,32 @@ const IOS_SYSTEM_COLORS = {
   white: 'rgb(255, 255, 255)',
   black: 'rgb(0, 0, 0)',
   light: {
-    grey6: '${colors.light.ios.grey6}',
-    grey5: '${colors.light.ios.grey5}',
-    grey4: '${colors.light.ios.grey4}',
-    grey3: '${colors.light.ios.grey3}',
-    grey2: '${colors.light.ios.grey2}',
-    grey: '${colors.light.ios.grey}',
-    background: '${colors.light.ios.background}',
-    foreground: '${colors.light.ios.foreground}',
-    root: '${colors.light.ios.background}',
-    card: '${colors.light.ios.background}',
-    destructive: '${colors.light.ios.destructive}',
-    primary: '${colors.light.ios.primary}',
+    grey6: '${colors.ios.light.grey6}',
+    grey5: '${colors.ios.light.grey5}',
+    grey4: '${colors.ios.light.grey4}',
+    grey3: '${colors.ios.light.grey3}',
+    grey2: '${colors.ios.light.grey2}',
+    grey: '${colors.ios.light.grey}',
+    background: '${colors.ios.light.background}',
+    foreground: '${colors.ios.light.foreground}',
+    root: '${colors.ios.light.background}',
+    card: '${colors.ios.light.background}',
+    destructive: '${colors.ios.light.destructive}',
+    primary: '${colors.ios.light.primary}',
   },
   dark: {
-    grey6: '${colors.dark.ios.grey6}',
-    grey5: '${colors.dark.ios.grey5}',
-    grey4: '${colors.dark.ios.grey4}',
-    grey3: '${colors.dark.ios.grey3}',
-    grey2: '${colors.dark.ios.grey2}',
-    grey: '${colors.dark.ios.grey}',
-    background: '${colors.dark.ios.background}',
-    foreground: '${colors.dark.ios.foreground}',
-    root: '${colors.dark.ios.background}',
-    card: '${colors.dark.ios.background}',
-    destructive: '${colors.dark.ios.destructive}',
-    primary: '${colors.dark.ios.primary}',
+    grey6: '${colors.ios.dark.grey6}',
+    grey5: '${colors.ios.dark.grey5}',
+    grey4: '${colors.ios.dark.grey4}',
+    grey3: '${colors.ios.dark.grey3}',
+    grey2: '${colors.ios.dark.grey2}',
+    grey: '${colors.ios.dark.grey}',
+    background: '${colors.ios.dark.background}',
+    foreground: '${colors.ios.dark.foreground}',
+    root: '${colors.ios.dark.background}',
+    card: '${colors.ios.dark.background}',
+    destructive: '${colors.ios.dark.destructive}',
+    primary: '${colors.ios.dark.primary}',
   },
 } as const;
 
@@ -201,32 +201,32 @@ const ANDROID_COLORS = {
   white: 'rgb(255, 255, 255)',
   black: 'rgb(0, 0, 0)',
   light: {
-    grey6: '${colors.light.android.grey6}',
-    grey5: '${colors.light.android.grey5}',
-    grey4: '${colors.light.android.grey4}',
-    grey3: '${colors.light.android.grey3}',
-    grey2: '${colors.light.android.grey2}',
-    grey: '${colors.light.android.grey}',
-    background: '${colors.light.android.background}',
-    foreground: '${colors.light.android.foreground}',
-    root: '${colors.light.android.background}',
-    card: '${colors.light.android.background}',
-    destructive: '${colors.light.android.destructive}',
-    primary: '${colors.light.android.primary}',
+    grey6: '${colors.android.light.grey6}',
+    grey5: '${colors.android.light.grey5}',
+    grey4: '${colors.android.light.grey4}',
+    grey3: '${colors.android.light.grey3}',
+    grey2: '${colors.android.light.grey2}',
+    grey: '${colors.android.light.grey}',
+    background: '${colors.android.light.background}',
+    foreground: '${colors.android.light.foreground}',
+    root: '${colors.android.light.background}',
+    card: '${colors.android.light.background}',
+    destructive: '${colors.android.light.destructive}',
+    primary: '${colors.android.light.primary}',
   },
   dark: {
-    grey6: '${colors.dark.android.grey6}',
-    grey5: '${colors.dark.android.grey5}',
-    grey4: '${colors.dark.android.grey4}',
-    grey3: '${colors.dark.android.grey3}',
-    grey2: '${colors.dark.android.grey2}',
-    grey: '${colors.dark.android.grey}',
-    background: '${colors.dark.android.background}',
-    foreground: '${colors.dark.android.foreground}',
-    root: '${colors.dark.android.background}',
-    card: '${colors.dark.android.background}',
-    destructive: '${colors.dark.android.destructive}',
-    primary: '${colors.dark.android.primary}',
+    grey6: '${colors.android.dark.grey6}',
+    grey5: '${colors.android.dark.grey5}',
+    grey4: '${colors.android.dark.grey4}',
+    grey3: '${colors.android.dark.grey3}',
+    grey2: '${colors.android.dark.grey2}',
+    grey: '${colors.android.dark.grey}',
+    background: '${colors.android.dark.background}',
+    foreground: '${colors.android.dark.foreground}',
+    root: '${colors.android.dark.background}',
+    card: '${colors.android.dark.background}',
+    destructive: '${colors.android.dark.destructive}',
+    primary: '${colors.android.dark.primary}',
   },
 } as const;
 

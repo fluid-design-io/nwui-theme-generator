@@ -4,9 +4,9 @@ import { Platform, DEFAULT_COLORS } from "@/store/theme-store";
 
 // Create platform-specific color maps
 const PLATFORM_COLORS = {
-  ios: DEFAULT_COLORS.light.ios,
-  android: DEFAULT_COLORS.light.android,
-  web: DEFAULT_COLORS.light.web,
+  ios: DEFAULT_COLORS.ios.light,
+  android: DEFAULT_COLORS.android.light,
+  web: DEFAULT_COLORS.web.light,
 } as const;
 
 function generateColorMap(platform: Platform) {
@@ -45,7 +45,7 @@ async function processFile(filePath: string) {
       const regex = new RegExp(`'${staticColor}'`, "gi");
       modifiedContent = modifiedContent.replace(
         regex,
-        `{colors[theme][${JSON.stringify(platform)}].${themeColor}}`
+        `{colors.${JSON.stringify(platform)}[theme].${themeColor}}`
       );
     });
 

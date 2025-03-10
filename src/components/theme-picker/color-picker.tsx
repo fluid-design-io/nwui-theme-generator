@@ -5,7 +5,8 @@ import { HexColorPicker } from "react-colorful";
 import { cn } from "@/lib/utils";
 
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { ColorState, useThemeStore } from "@/store/theme-store";
+import { SyncColor, useThemeStore } from "@/store/theme-store";
+import { generateColorsFromPrimary } from "@/lib/generator";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Switch } from "../ui/switch";
 import { TextMono } from "../ui/text";
@@ -16,29 +17,60 @@ import {
   DialogActions,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import Color from "color";
 
 export const ColorPicker = ({
   title,
   colorKey,
 }: {
   title: string;
-  colorKey: keyof ColorState;
+  colorKey: keyof (SyncColor & { muted: string });
 }) => {
-  const { colors, setColor, setPrimaryColor, platform, theme } =
+  const { colors, setColor, setPrimaryColor, platform, theme, sync, setSync } =
     useThemeStore();
   const [popoverWidth, setPopoverWidth] = useState(0);
+  const [colorInput, setColorInput] = useState(
+    colors[platform][theme][colorKey]
+  );
   const [isPending, startTransition] = useTransition();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const popoverRef = useRef<HTMLButtonElement>(null);
   const updateColor = (color: string) => {
     startTransition(() => {
+      setColorInput(color);
+      const isOverwrittingSync =
+        theme === "dark" && colorKey !== "muted" && sync[platform][colorKey];
+      // set sync to false if user changes color in dark theme
+      if (isOverwrittingSync) {
+        setSync(colorKey, false);
+      }
       if (colorKey === "primary") {
-        setPrimaryColor(color);
+        // Generate colors inside the transition
+        const newColors = generateColorsFromPrimary(
+          color,
+          theme,
+          platform,
+          !isOverwrittingSync
+        );
+        setPrimaryColor(newColors);
       } else {
         setColor(colorKey, color);
       }
     });
+  };
+
+  const handleColorInputChange = (value: string) => {
+    try {
+      const color = Color(value);
+      setColorInput(color.hex());
+      updateColor(color.hex());
+    } catch (error: unknown) {
+      setColorInput(value);
+      if (error instanceof Error) return;
+      return;
+    }
   };
 
   const updatePopoverWidth = () => {
@@ -76,10 +108,15 @@ export const ColorPicker = ({
           <div className='flex items-center gap-1'>
             <div
               className='size-3.5 inset-ring inset-ring-border rounded-full'
-              style={{ backgroundColor: colors[theme][platform][colorKey] }}
+              style={{ backgroundColor: colors[platform][theme][colorKey] }}
             />
-            <p className='font-mono font-light text-muted-foreground uppercase'>
-              {isPending ? "Updating..." : colors[theme][platform][colorKey]}
+            <p
+              className={cn(
+                "font-mono font-light text-muted-foreground uppercase",
+                isPending && "animate-pulse"
+              )}
+            >
+              {isPending ? "Updating..." : colors[platform][theme][colorKey]}
             </p>
           </div>
         </div>
@@ -98,50 +135,58 @@ export const ColorPicker = ({
         </svg>
       </PopoverButton>
       <PopoverPanel
+        focus
         anchor='bottom'
         className={cn(
           "!overflow-visible w-[var(--popover-width)] bg-border/50 backdrop-blur-sm -mt-px",
-          "shadow-2xl shadow-neutral-900/10"
+          "shadow-2xl shadow-neutral-900/10",
+          "inset-ring inset-ring-border"
         )}
         style={{
           // @ts-expect-error - popoverWidth is not a valid CSS variable
           "--popover-width": `${popoverWidth}px`,
         }}
       >
-        <HexColorPicker
-          color={colors[theme][platform][colorKey]}
-          onChange={updateColor}
-          autoFocus
+        <Input
+          className='w-full'
+          value={colorInput}
+          onChange={(e) => handleColorInputChange(e.target.value)}
         />
-        <div className='px-2 xl:px-3 py-2'>
-          <div className='flex items-center justify-between gap-2'>
-            <div className='flex items-center gap-1.5'>
-              <TextMono className='text-xs text-muted-foreground'>
-                Sync {colorKey}
-              </TextMono>
-              <button
-                onClick={() => setIsDialogOpen(true)}
-                className='text-muted-foreground hover:text-foreground'
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 16'
-                  fill='currentColor'
-                  className='size-3'
+        <HexColorPicker color={colorInput} onChange={updateColor} />
+        {colorKey !== "muted" && (
+          <div className='px-2 xl:px-3 py-2'>
+            <div className='flex items-center justify-between gap-2'>
+              <div className='flex items-center gap-1.5'>
+                <TextMono className='text-xs text-muted-foreground'>
+                  Sync {colorKey}
+                </TextMono>
+                <button
+                  onClick={() => setIsDialogOpen(true)}
+                  className='text-muted-foreground hover:text-foreground'
                 >
-                  <path
-                    fillRule='evenodd'
-                    d='M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z'
-                    clipRule='evenodd'
-                  />
-                </svg>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 16 16'
+                    fill='currentColor'
+                    className='size-3'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
 
-                <span className='sr-only'>Sync {colorKey} theme</span>
-              </button>
+                  <span className='sr-only'>Sync {colorKey} theme</span>
+                </button>
+              </div>
+              <Switch
+                checked={sync[platform][colorKey]}
+                onChange={(checked) => setSync(colorKey, checked)}
+              />
             </div>
-            <Switch />
           </div>
-        </div>
+        )}
 
         <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
           <DialogTitle>Theme Sync</DialogTitle>

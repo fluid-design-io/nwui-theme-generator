@@ -3,16 +3,23 @@
 import { Button, Radio, RadioGroup } from "@headlessui/react";
 import { TextMono } from "../ui/text";
 import { ColorPicker } from "./color-picker";
-import { ColorState, useThemeStore } from "@/store/theme-store";
+import { SyncColor, useThemeStore } from "@/store/theme-store";
 
 export function ThemePalettes() {
-  const pickers: { title: string; colorKey: keyof ColorState }[] = [
+  const pickers: {
+    title: string;
+    colorKey: keyof (SyncColor & { muted: string });
+  }[] = [
     { title: "Primary", colorKey: "primary" },
     { title: "Secondary", colorKey: "secondary" },
     { title: "Accent", colorKey: "accent" },
     { title: "Muted", colorKey: "muted" },
   ];
-  const { platform, setPlatform, theme, setTheme } = useThemeStore();
+  const platform = useThemeStore((state) => state.platform);
+  const setPlatform = useThemeStore((state) => state.setPlatform);
+  const theme = useThemeStore((state) => state.theme);
+  const setTheme = useThemeStore((state) => state.setTheme);
+
   const handleThemeChange = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
