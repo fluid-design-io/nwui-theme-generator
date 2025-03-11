@@ -123,6 +123,9 @@
   scrollbar-color: var(--color-border) var(--color-background);
 }
 
+/* A hack to check likely a phiscal keyboard device */
+@custom-variant pointer-fine (@media (pointer: fine));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

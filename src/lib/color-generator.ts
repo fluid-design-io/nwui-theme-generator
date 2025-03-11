@@ -39,14 +39,23 @@ export type DestructiveGeneratedColors = Pick<
   "destructive" | "destructiveForeground"
 >;
 
+export type MutedGeneratedColors = Pick<
+  ColorState,
+  "muted" | "mutedForeground"
+>;
+
 /**
  * Base color generator class that can be extended for different platforms and color types
  */
 export abstract class BaseColorGenerator {
   protected platform: Platform;
+  protected theme: Theme;
+  protected sync: boolean;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, theme: Theme, sync: boolean) {
     this.platform = platform;
+    this.theme = theme;
+    this.sync = sync;
   }
 
   /**
@@ -126,42 +135,38 @@ export abstract class BaseColorGenerator {
    */
   abstract generateFromPrimary(
     primary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, PrimaryGeneratedColors>>;
 
   abstract generateFromSecondary(
     secondary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, SecondaryGeneratedColors>>;
 
   abstract generateFromAccent(
     accent: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, AccentGeneratedColors>>;
+
+  abstract generateFromMuted(
+    muted: string,
+  ): Partial<Record<Theme, MutedGeneratedColors>>;
 }
 
 /**
  * Web platform color generator
  */
 export class WebColorGenerator extends BaseColorGenerator {
-  constructor() {
-    super("web");
+  constructor(theme: Theme, sync: boolean) {
+    super("web", theme, sync);
   }
 
   generateFromPrimary(
     primary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, PrimaryGeneratedColors>> {
     const primaryColor = Color(primary);
     let light;
     let dark;
 
     // Generate light theme
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor).hex(),
@@ -183,10 +188,10 @@ export class WebColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       // Adjust primary color for dark theme if coming from light theme
       const darkPrimaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(primaryColor.blacken(0.1))
           : primaryColor;
 
@@ -218,24 +223,22 @@ export class WebColorGenerator extends BaseColorGenerator {
 
   generateFromSecondary(
     secondary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, SecondaryGeneratedColors>> {
     const secondaryColor = Color(secondary);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       // Adjust secondary color for dark theme if coming from light theme
       const darkSecondaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(secondaryColor.blacken(0.1))
           : secondaryColor;
 
@@ -253,24 +256,22 @@ export class WebColorGenerator extends BaseColorGenerator {
 
   generateFromAccent(
     accent: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, AccentGeneratedColors>> {
     const accentColor = Color(accent);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       // Adjust accent color for dark theme if coming from light theme
       const darkAccentColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(accentColor.blacken(0.1))
           : accentColor;
 
@@ -285,34 +286,59 @@ export class WebColorGenerator extends BaseColorGenerator {
       ...(dark && { dark }),
     };
   }
+
+  generateFromMuted(
+    muted: string,
+  ): Partial<Record<Theme, MutedGeneratedColors>> {
+    const mutedColor = Color(muted);
+    let light;
+    let dark;
+
+    if (this.theme === "light" || this.sync) {
+      light = {
+        muted: mutedColor.lightness(91).desaturate(0.75).hex(),
+        mutedForeground: mutedColor.lightness(58).desaturate(0.2).hex(),
+      };
+    }
+
+    if (this.theme === "dark" || this.sync) {
+      dark = {
+        muted: mutedColor.lightness(14).desaturate(0.2).hex(),
+        mutedForeground: mutedColor.lightness(65).desaturate(0.2).hex(),
+      };
+    }
+
+    return {
+      ...(light && { light }),
+      ...(dark && { dark }),
+    };
+  }
 }
 
 /**
  * iOS platform color generator
  */
 export class IOSColorGenerator extends BaseColorGenerator {
-  constructor() {
-    super("ios");
+  constructor(theme: Theme, sync: boolean) {
+    super("ios", theme, sync);
   }
 
   // iOS tends to use more saturated colors
   generateFromPrimary(
     primary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, PrimaryGeneratedColors>> {
     const primaryColor = Color(primary);
     let light;
     let dark;
 
     // Generate light theme
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor, 3).hex(),
-        background: primaryColor.lightness(98).hex(),
+        background: primaryColor.lightness(99.5).hex(),
         foreground: this.contrastColor(primaryColor.lightness(98)).hex(),
-        muted: primaryColor.lightness(88).desaturate(0.2).hex(), // Less desaturated
+        muted: primaryColor.lightness(91).desaturate(0.75).hex(), // Less desaturated
         mutedForeground: primaryColor.lightness(58).desaturate(0.2).hex(),
         border: primaryColor.lightness(92).desaturate(0.3).hex(),
         input: primaryColor.lightness(88).desaturate(0.3).hex(),
@@ -322,19 +348,19 @@ export class IOSColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       // Adjust primary color for dark theme if coming from light theme
       const darkPrimaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(primaryColor.blacken(0.05))
           : primaryColor;
 
       dark = {
         primary: darkPrimaryColor.hex(),
         primaryForeground: this.contrastColor(darkPrimaryColor).hex(),
-        background: darkPrimaryColor.lightness(4).hex(),
+        background: darkPrimaryColor.lightness(0).hex(),
         foreground: this.contrastColor(darkPrimaryColor.lightness(4)).hex(),
-        muted: darkPrimaryColor.lightness(10).desaturate(0.2).hex(),
+        muted: darkPrimaryColor.lightness(14).desaturate(0.2).hex(),
         mutedForeground: darkPrimaryColor.lightness(65).desaturate(0.2).hex(),
         border: darkPrimaryColor.lightness(25).desaturate(0.3).hex(),
         input: darkPrimaryColor.lightness(30).desaturate(0.3).hex(),
@@ -351,23 +377,21 @@ export class IOSColorGenerator extends BaseColorGenerator {
 
   generateFromSecondary(
     secondary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, SecondaryGeneratedColors>> {
     const secondaryColor = Color(secondary);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       const darkSecondaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(secondaryColor.blacken(0.05))
           : secondaryColor;
 
@@ -385,23 +409,21 @@ export class IOSColorGenerator extends BaseColorGenerator {
 
   generateFromAccent(
     accent: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, AccentGeneratedColors>> {
     const accentColor = Color(accent);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor, 20).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       const darkAccentColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(accentColor.blacken(0.05))
           : accentColor;
 
@@ -416,28 +438,53 @@ export class IOSColorGenerator extends BaseColorGenerator {
       ...(dark && { dark }),
     };
   }
+
+  generateFromMuted(
+    muted: string,
+  ): Partial<Record<Theme, MutedGeneratedColors>> {
+    const mutedColor = Color(muted);
+    let light;
+    let dark;
+
+    if (this.theme === "light" || this.sync) {
+      light = {
+        muted: mutedColor.hex(),
+        mutedForeground: this.contrastColor(mutedColor, 30).hex(),
+      };
+    }
+
+    if (this.theme === "dark" || this.sync) {
+      dark = {
+        muted: mutedColor.hex(),
+        mutedForeground: this.contrastColor(mutedColor, 30).hex(),
+      };
+    }
+
+    return {
+      ...(light && { light }),
+      ...(dark && { dark }),
+    };
+  }
 }
 
 /**
  * Android platform color generator
  */
 export class AndroidColorGenerator extends BaseColorGenerator {
-  constructor() {
-    super("android");
+  constructor(theme: Theme, sync: boolean) {
+    super("android", theme, sync);
   }
 
   // Android Material Design inspired color generation
   generateFromPrimary(
     primary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, PrimaryGeneratedColors>> {
     const primaryColor = Color(primary);
     let light;
     let dark;
 
     // Generate light theme
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor).hex(),
@@ -459,10 +506,10 @@ export class AndroidColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       // Adjust primary color for dark theme if coming from light theme
       const darkPrimaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(primaryColor)
           : primaryColor;
 
@@ -494,23 +541,21 @@ export class AndroidColorGenerator extends BaseColorGenerator {
 
   generateFromSecondary(
     secondary: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, SecondaryGeneratedColors>> {
     const secondaryColor = Color(secondary);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       const darkSecondaryColor =
-        theme === "light" && sync
+        this.theme === "light" && this.sync
           ? this.darkVariant(secondaryColor)
           : secondaryColor;
 
@@ -528,27 +573,54 @@ export class AndroidColorGenerator extends BaseColorGenerator {
 
   generateFromAccent(
     accent: string,
-    theme: Theme,
-    sync: boolean,
   ): Partial<Record<Theme, AccentGeneratedColors>> {
     const accentColor = Color(accent);
     let light;
     let dark;
 
-    if (theme === "light" || sync) {
+    if (this.theme === "light" || this.sync) {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor).hex(),
       };
     }
 
-    if (theme === "dark" || sync) {
+    if (this.theme === "dark" || this.sync) {
       const darkAccentColor =
-        theme === "light" && sync ? this.darkVariant(accentColor) : accentColor;
+        this.theme === "light" && this.sync
+          ? this.darkVariant(accentColor)
+          : accentColor;
 
       dark = {
         accent: darkAccentColor.hex(),
         accentForeground: this.contrastColor(darkAccentColor).hex(),
+      };
+    }
+
+    return {
+      ...(light && { light }),
+      ...(dark && { dark }),
+    };
+  }
+
+  generateFromMuted(
+    muted: string,
+  ): Partial<Record<Theme, MutedGeneratedColors>> {
+    const mutedColor = Color(muted);
+    let light;
+    let dark;
+
+    if (this.theme === "light" || this.sync) {
+      light = {
+        muted: mutedColor.hex(),
+        mutedForeground: this.contrastColor(mutedColor, 30).hex(),
+      };
+    }
+
+    if (this.theme === "dark" || this.sync) {
+      dark = {
+        muted: mutedColor.hex(),
+        mutedForeground: this.contrastColor(mutedColor, 30).hex(),
       };
     }
 
@@ -562,15 +634,19 @@ export class AndroidColorGenerator extends BaseColorGenerator {
 /**
  * Factory function to get the appropriate color generator based on platform
  */
-export function getColorGenerator(platform: Platform): BaseColorGenerator {
+export function getColorGenerator(
+  platform: Platform,
+  theme: Theme,
+  sync: boolean,
+): BaseColorGenerator {
   switch (platform) {
     case "ios":
-      return new IOSColorGenerator();
+      return new IOSColorGenerator(theme, sync);
     case "android":
-      return new AndroidColorGenerator();
+      return new AndroidColorGenerator(theme, sync);
     case "web":
     default:
-      return new WebColorGenerator();
+      return new WebColorGenerator(theme, sync);
   }
 }
 
@@ -583,4 +659,7 @@ export type SecondaryColorGenerator = ReturnType<
 >;
 export type AccentColorGenerator = ReturnType<
   ColorGenerator["generateFromAccent"]
+>;
+export type MutedColorGenerator = ReturnType<
+  ColorGenerator["generateFromMuted"]
 >;

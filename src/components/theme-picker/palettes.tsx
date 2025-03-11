@@ -10,7 +10,7 @@ import { ColorPickerModifier } from "@/hooks/use-theme-shortcuts";
 export function ThemePalettes() {
   const pickers: {
     title: string;
-    colorKey: keyof (SyncColor & { muted: string });
+    colorKey: keyof SyncColor;
     modifier: ColorPickerModifier;
   }[] = [
     { title: "Primary", colorKey: "primary", modifier: "p" },
@@ -22,37 +22,37 @@ export function ThemePalettes() {
   const setPlatform = useThemeStore((state) => state.setPlatform);
   return (
     <>
-      <div className='flex items-stretch justify-between line-y lg:line-y/half'>
+      <div className="line-y lg:line-y/half flex items-stretch justify-between">
         <RadioGroup
-          className='flex items-center'
+          className="flex items-center"
           value={platform}
           onChange={setPlatform}
         >
           <Radio
-            as='div'
-            value='ios'
-            className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6 data-focus:-outline-offset-2 data-focus:outline-blue-500'
+            as="div"
+            value="ios"
+            className="hover:bg-border/35 data-checked:bg-border/50 border-r p-3 *:select-none focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 sm:px-6"
           >
             <TextMono>iOS</TextMono>
           </Radio>
           <Radio
-            as='div'
-            value='android'
-            className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6 data-focus:-outline-offset-2 data-focus:outline-blue-500'
+            as="div"
+            value="android"
+            className="hover:bg-border/35 data-checked:bg-border/50 border-r p-3 *:select-none focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 sm:px-6"
           >
             <TextMono>Android</TextMono>
           </Radio>
           <Radio
-            as='div'
-            value='web'
-            className='*:select-none border-r p-3 hover:bg-border/35 focus:not-data-focus:outline-none data-checked:bg-border/50 sm:px-6 data-focus:-outline-offset-2 data-focus:outline-blue-500'
+            as="div"
+            value="web"
+            className="hover:bg-border/35 data-checked:bg-border/50 border-r p-3 *:select-none focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 sm:px-6"
           >
             <TextMono>Web</TextMono>
           </Radio>
         </RadioGroup>
         <ColorThemeToggle />
       </div>
-      <PopoverGroup className='grid grid-cols-2 md:grid-cols-4 line-b lg:line-b/half'>
+      <PopoverGroup className="line-b lg:line-b/half grid grid-cols-2 md:grid-cols-4">
         {pickers.map(({ title, colorKey, modifier }, index) => (
           <ColorPicker
             key={index}

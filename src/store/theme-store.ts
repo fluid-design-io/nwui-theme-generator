@@ -5,6 +5,7 @@ import Color from "color";
 import { hashStorage } from "./hash-storage";
 import {
   AccentColorGenerator,
+  MutedColorGenerator,
   PrimaryColorGenerator,
   SecondaryColorGenerator,
 } from "@/lib/color-generator";
@@ -43,7 +44,7 @@ interface ColorState {
 
 type ColorStates = Record<Platform, Record<Theme, ColorState>>;
 
-type SyncColor = Pick<ColorState, "primary" | "secondary" | "accent">;
+type SyncColor = Pick<ColorState, "primary" | "secondary" | "accent" | "muted">;
 type SyncState = Record<Platform, Record<keyof SyncColor, boolean>>;
 
 interface ThemeState {
@@ -56,6 +57,7 @@ interface ThemeState {
   setPrimaryColor: (computedColors: PrimaryColorGenerator) => void;
   setSecondaryColor: (computedColors: SecondaryColorGenerator) => void;
   setAccentColor: (computedColors: AccentColorGenerator) => void;
+  setMutedColor: (computedColors: MutedColorGenerator) => void;
   setColor: (key: keyof ColorState, value: string) => void;
   setSync: (syncColor: keyof SyncColor, value: boolean) => void;
   reset: () => void;
@@ -244,16 +246,19 @@ const DEFAULT_SYNC: SyncState = {
     primary: true,
     secondary: true,
     accent: true,
+    muted: true,
   },
   android: {
     primary: true,
     secondary: true,
     accent: true,
+    muted: true,
   },
   web: {
     primary: true,
     secondary: true,
     accent: true,
+    muted: true,
   },
 };
 
@@ -349,6 +354,22 @@ export const useThemeStore = create<ThemeState>()(
           }),
         ),
       setAccentColor: (computedColors: AccentColorGenerator) =>
+        set(
+          produce((state: ThemeState) => {
+            state.colors[state.platform] = {
+              ...state.colors[state.platform],
+              light: {
+                ...state.colors[state.platform].light,
+                ...computedColors.light,
+              },
+              dark: {
+                ...state.colors[state.platform].dark,
+                ...computedColors.dark,
+              },
+            };
+          }),
+        ),
+      setMutedColor: (computedColors: MutedColorGenerator) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform] = {

@@ -25,7 +25,7 @@ export const ColorPicker = ({
   modifier,
 }: {
   title: string;
-  colorKey: keyof (SyncColor & { muted: string });
+  colorKey: keyof SyncColor;
   modifier: ColorPickerModifier;
 }) => {
   const platform = useThemeStore((state) => state.platform);
