@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NWUI Theme Picker",
-  description: "A theme picker for NativeWind UI",
+  title: "NWUI Theme Generator",
+  description: "A theme generator for NativeWind UI",
 };
 
 export default async function RootLayout({
@@ -27,13 +27,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
         <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
+          attribute="class"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
