@@ -17,6 +17,7 @@ import {
   ClipboardDocumentCheckIcon,
   ClipboardDocumentListIcon,
 } from "@heroicons/react/16/solid";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const CopyButton = ({ onCopy }: { onCopy: () => void }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -43,7 +44,16 @@ const CopyButton = ({ onCopy }: { onCopy: () => void }) => {
   );
 };
 
-export function ThemeCodeGen() {
+export function ThemeCodeGen({ slot }: { slot: "desktop" | "mobile" }) {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
+  if (!isDesktop && slot === "desktop") return null;
+  if (isDesktop && slot === "mobile") return null;
+
+  return <ThemeCodeGenContent />;
+}
+
+export const ThemeCodeGenContent = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const globalsCss = useGlobalsCssTemplate();
   const colorsTs = useColorsTsTemplate();
@@ -75,4 +85,4 @@ export function ThemeCodeGen() {
       </TabPanels>
     </TabGroup>
   );
-}
+};

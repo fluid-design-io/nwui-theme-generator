@@ -22,7 +22,7 @@ export const SyncControls = ({
             <TextMono>Sync {colorKey}</TextMono>
           </Label>
           <Description className="text-xs/4 text-pretty sm:text-xs/4">
-            Sync between light and dark themes
+            Sync colors between light and dark themes
           </Description>
         </div>
         <Switch checked={isSync} onChange={onSyncChange} />

@@ -57,7 +57,13 @@ export const ColorPicker = ({
   }, []);
 
   return (
-    <div className="relative border-l first:border-none">
+    <div
+      className={cn(
+        "relative border-l first:border-none",
+        "nth-[3]:border-t nth-[4]:border-t",
+        "md:nth-[3]:border-t-0 md:nth-[4]:border-t-0",
+      )}
+    >
       <Dropdown>
         <DropdownButton
           className="group/options !absolute top-0 right-0 rounded-none data-focus:inset-ring-2 data-focus:inset-ring-blue-500"
