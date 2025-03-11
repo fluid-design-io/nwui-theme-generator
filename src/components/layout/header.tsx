@@ -16,6 +16,9 @@ function Header() {
         </div>
       </Link>
       <NavbarSection>
+        {/* 
+        //TODO: Add github star tracker
+        */}
         <ThemeToggle />
       </NavbarSection>
     </Navbar>

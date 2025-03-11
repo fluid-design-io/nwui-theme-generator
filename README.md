@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 NWUI Theme Generator
 
-## Getting Started
+> Because life's too short for boring color schemes! 🌈
 
-First, run the development server:
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What's This?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ever wished you could wave a magic wand and generate beautiful, platform-specific color themes for your NativeWind UI apps? Well, this is pretty much that, minus the wand! 🪄
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 🎯 **Platform-Specific Themes**: Generate colors that feel right at home on iOS, Android, or web
+- 🔄 **Live Preview**: See your changes in real-time (because who likes surprises?)
+- 🔗 **Sharable Themes**: Share your masterpiece with a simple URL (powered by Zustand's hash storage magic)
+- ⚡️ **Keyboard Shortcuts**: Speed up your workflow with quick keys for theme switching, device previews, and more
+- 📱 **Built for NativeWind**: Perfect for your React Native + Tailwind CSS projects
+- 🌓 **Dark/Light Mode**: Because themes are like the moon - they have two sides
+- 🎭 **Preview Components**: Test your theme on real UI components
 
-## Learn More
+## 🤓 For the Nerdy Details
 
-To learn more about Next.js, take a look at the following resources:
+The generator uses platform-specific color algorithms to ensure your themes feel native on each platform:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 🍎 **iOS**: Follows Apple's Human Interface Guidelines color principles
+- 🤖 **Android**: Material Design 3 inspired color generation
+- 🌐 **Web**: Modern web-first color schemes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each platform generator extends a base class and implements its own color generation logic. Check out `src/lib/color-generator/` if you want to peek under the hood!
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Got ideas? Found a bug? Want to make it even more awesome? Contributions are welcome!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork it
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+_P.S. If you're reading this far, you might be interested in starring the repo. Just saying! ⭐️_

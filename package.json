@@ -1,7 +1,28 @@
 {
   "name": "nwui-theme-generator",
   "version": "0.1.0",
+  "description": "🎨 A delightful theme generator for NativeWind UI - Create, preview, and share themes for your iOS, Android, and web apps",
   "private": true,
+  "author": {
+    "name": "Oliver Pan",
+    "url": "https://github.com/fluid-design-io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fluid-design-io/nwui-theme-generator"
+  },
+  "keywords": [
+    "nativewind",
+    "theme-generator",
+    "react-native",
+    "ios",
+    "android",
+    "web",
+    "design-system",
+    "tailwindcss",
+    "color-generator"
+  ],
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
