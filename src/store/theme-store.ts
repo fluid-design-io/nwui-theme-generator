@@ -412,12 +412,9 @@ export const useThemeStore = create<ThemeState>()(
       name: "theme-storage",
       storage: createJSONStorage(() => hashStorage),
       onRehydrateStorage: (state) => {
-        console.log("onRehydrateStorage", state);
         const isValid = validateState(state);
-        console.log("isValid", isValid);
         // If state is null or missing required keys, reset to defaults
         if (!isValid) {
-          console.log("resetting");
           useThemeStore.getState().reset();
         }
       },
