@@ -1,8 +1,7 @@
 # 🎨 NWUI Theme Generator
+![Home Page](https://github.com/user-attachments/assets/b385eabb-cd5a-4ada-8aaf-5393b4002f5d)
 
 > Because life's too short for boring color schemes! 🌈
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 ## What's This?
 
