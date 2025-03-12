@@ -1,4 +1,5 @@
-# 🎨 NWUI Theme Generator
+# 🎨 NWUI Theme Generator (WIP 🚧)
+
 ![Home Page](https://github.com/user-attachments/assets/b385eabb-cd5a-4ada-8aaf-5393b4002f5d)
 
 > Because life's too short for boring color schemes! 🌈
