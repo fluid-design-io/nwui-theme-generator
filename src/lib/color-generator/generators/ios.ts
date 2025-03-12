@@ -9,11 +9,13 @@ import {
   MutedGeneratedColors,
 } from "../types";
 
+import { SyncStatePlatform } from "@/store/theme-store";
+
 /**
  * iOS platform color generator with iOS design system inspired colors
  */
 export class IOSColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["ios"]) {
     super("ios", theme, sync);
   }
 
@@ -25,7 +27,7 @@ export class IOSColorGenerator extends BaseColorGenerator {
     let dark;
 
     // Generate light theme (iOS inspired)
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.primary === "all") {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor, 3).hex(),
@@ -47,9 +49,9 @@ export class IOSColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme (iOS inspired)
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.primary === "all") {
       const darkPrimaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.primary !== "none"
           ? this.darkVariant(primaryColor.blacken(0.05))
           : primaryColor;
 
@@ -86,16 +88,16 @@ export class IOSColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.secondary === "dark") {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.secondary === "dark") {
       const darkSecondaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.secondary === "dark"
           ? this.darkVariant(secondaryColor.blacken(0.05))
           : secondaryColor;
 
@@ -118,16 +120,16 @@ export class IOSColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.accent === "dark") {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.accent === "dark") {
       const darkAccentColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.accent === "dark"
           ? this.darkVariant(accentColor.blacken(0.05))
           : accentColor;
 
@@ -148,14 +150,14 @@ export class IOSColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.muted === "dark") {
       light = {
         muted: mutedColor.hex(),
         mutedForeground: this.contrastColor(mutedColor, 30).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.muted === "dark") {
       dark = {
         muted: mutedColor.hex(),
         mutedForeground: this.contrastColor(mutedColor, 30).hex(),

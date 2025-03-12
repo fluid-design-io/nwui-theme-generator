@@ -8,12 +8,13 @@ import {
   AccentGeneratedColors,
   MutedGeneratedColors,
 } from "../types";
-
+import { generateGreyScaleAndroid } from "../utils/color-utils";
+import { SyncStatePlatform } from "@/store/theme-store";
 /**
  * Android platform color generator with Material Design inspired colors
  */
 export class AndroidColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["android"]) {
     super("android", theme, sync);
   }
 
@@ -25,7 +26,7 @@ export class AndroidColorGenerator extends BaseColorGenerator {
     let dark;
 
     // Generate light theme (Material Design 3 inspired)
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.primary === "all") {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor).hex(),
@@ -37,19 +38,14 @@ export class AndroidColorGenerator extends BaseColorGenerator {
         input: primaryColor.lightness(90).desaturate(0.5).hex(),
         ring: primaryColor.alpha(0.5).hex(),
         // Material Design inspired grey scale
-        grey6: Color("#F5F5F5").hex(),
-        grey5: Color("#EEEEEE").hex(),
-        grey4: Color("#E0E0E0").hex(),
-        grey3: Color("#BDBDBD").hex(),
-        grey2: Color("#9E9E9E").hex(),
-        grey: Color("#757575").hex(),
+        ...generateGreyScaleAndroid(primaryColor, true),
       };
     }
 
     // Generate dark theme (Material Design 3 inspired)
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.primary === "all") {
       const darkPrimaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.primary !== "none"
           ? this.darkVariant(primaryColor)
           : primaryColor;
 
@@ -64,12 +60,7 @@ export class AndroidColorGenerator extends BaseColorGenerator {
         input: darkPrimaryColor.lightness(20).desaturate(0.4).hex(),
         ring: darkPrimaryColor.alpha(0.5).hex(),
         // Material Design inspired dark grey scale
-        grey6: Color("#212121").hex(),
-        grey5: Color("#303030").hex(),
-        grey4: Color("#424242").hex(),
-        grey3: Color("#616161").hex(),
-        grey2: Color("#757575").hex(),
-        grey: Color("#9E9E9E").hex(),
+        ...generateGreyScaleAndroid(primaryColor, false),
       };
     }
 
@@ -86,16 +77,16 @@ export class AndroidColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.secondary === "dark") {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.secondary === "dark") {
       const darkSecondaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.secondary === "dark"
           ? this.darkVariant(secondaryColor)
           : secondaryColor;
 
@@ -118,16 +109,16 @@ export class AndroidColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.accent === "dark") {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.accent === "dark") {
       const darkAccentColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.accent === "dark"
           ? this.darkVariant(accentColor)
           : accentColor;
 
@@ -148,14 +139,14 @@ export class AndroidColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.muted === "dark") {
       light = {
         muted: mutedColor.lightness(95).desaturate(0.5).hex(),
         mutedForeground: mutedColor.lightness(30).desaturate(0.3).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.muted === "dark") {
       dark = {
         muted: mutedColor.lightness(15).desaturate(0.3).hex(),
         mutedForeground: mutedColor.lightness(70).desaturate(0.2).hex(),

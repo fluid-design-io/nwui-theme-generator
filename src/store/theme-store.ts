@@ -45,13 +45,29 @@ interface ColorState {
 type ColorStates = Record<Platform, Record<Theme, ColorState>>;
 
 type SyncColor = Pick<ColorState, "primary" | "secondary" | "accent" | "muted">;
-type SyncState = Record<Platform, Record<keyof SyncColor, boolean>>;
+
+type SyncStatePrimary = "all" | "dark" | "none";
+type SyncStateNonPrimary = "dark" | "none";
+
+type SyncStateSetter = <T extends keyof SyncColor>(
+  syncColor: T,
+  value: SyncStatePlatform[Platform][T],
+) => void;
+
+type SyncState = {
+  primary: SyncStatePrimary;
+  secondary: SyncStateNonPrimary;
+  accent: SyncStateNonPrimary;
+  muted: SyncStateNonPrimary;
+};
+
+type SyncStatePlatform = Record<Platform, SyncState>;
 
 interface ThemeState {
   platform: Platform;
   theme: Theme;
   colors: ColorStates;
-  sync: SyncState;
+  sync: SyncStatePlatform;
   setPlatform: (platform: Platform) => void;
   setTheme: (theme: Theme) => void;
   setPrimaryColor: (computedColors: PrimaryColorGenerator) => void;
@@ -59,7 +75,7 @@ interface ThemeState {
   setAccentColor: (computedColors: AccentColorGenerator) => void;
   setMutedColor: (computedColors: MutedColorGenerator) => void;
   setColor: (key: keyof ColorState, value: string) => void;
-  setSync: (syncColor: keyof SyncColor, value: boolean) => void;
+  setSync: SyncStateSetter;
   reset: () => void;
   getCssVariables: () => string;
 }
@@ -241,24 +257,24 @@ export const DEFAULT_COLORS: ColorStates = {
   },
 };
 
-const DEFAULT_SYNC: SyncState = {
+const DEFAULT_SYNC: SyncStatePlatform = {
   ios: {
-    primary: true,
-    secondary: true,
-    accent: true,
-    muted: true,
+    primary: "all",
+    secondary: "dark",
+    accent: "dark",
+    muted: "dark",
   },
   android: {
-    primary: true,
-    secondary: true,
-    accent: true,
-    muted: true,
+    primary: "all",
+    secondary: "dark",
+    accent: "dark",
+    muted: "dark",
   },
   web: {
-    primary: true,
-    secondary: true,
-    accent: true,
-    muted: true,
+    primary: "all",
+    secondary: "dark",
+    accent: "dark",
+    muted: "dark",
   },
 };
 
@@ -391,7 +407,10 @@ export const useThemeStore = create<ThemeState>()(
             state.colors[state.platform][state.theme][key] = value;
           }),
         ),
-      setSync: (syncColor: keyof SyncColor, value: boolean) =>
+      setSync: <T extends keyof SyncColor>(
+        syncColor: T,
+        value: SyncStatePlatform[Platform][T],
+      ) =>
         set(
           produce((state: ThemeState) => {
             state.sync[state.platform][syncColor] = value;
@@ -509,6 +528,10 @@ export type {
   ColorStates,
   SyncColor,
   SyncState,
+  SyncStatePlatform,
+  SyncStatePrimary,
+  SyncStateNonPrimary,
+  SyncStateSetter,
   Theme,
   ThemeState,
 };

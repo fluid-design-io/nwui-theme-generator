@@ -1,10 +1,11 @@
+import { SyncStatePlatform } from "@/store/theme-store";
 import { Platform, Theme, ColorGeneratorInterface } from "./types";
 import {
   getContrastColor,
   adjustLightness,
   getLightVariant,
   getDarkVariant,
-  generateGreyScale,
+  generateGreyScaleIos,
 } from "./utils/color-utils";
 
 /**
@@ -13,9 +14,13 @@ import {
 export abstract class BaseColorGenerator implements ColorGeneratorInterface {
   protected platform: Platform;
   protected theme: Theme;
-  protected sync: boolean;
+  protected sync: SyncStatePlatform[Platform];
 
-  constructor(platform: Platform, theme: Theme, sync: boolean) {
+  constructor(
+    platform: Platform,
+    theme: Theme,
+    sync: SyncStatePlatform[Platform],
+  ) {
     this.platform = platform;
     this.theme = theme;
     this.sync = sync;
@@ -26,7 +31,7 @@ export abstract class BaseColorGenerator implements ColorGeneratorInterface {
   protected adjustLightness = adjustLightness;
   protected lightVariant = getLightVariant;
   protected darkVariant = getDarkVariant;
-  protected generateGreyScale = generateGreyScale;
+  protected generateGreyScale = generateGreyScaleIos;
 
   // Abstract methods to be implemented by platform-specific generators
   abstract generateFromPrimary(

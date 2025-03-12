@@ -32,14 +32,14 @@ export const PreviewDropDown = () => {
       aria-label="Preview Screens"
       value={preview}
       onChange={setPreview}
-      className="bg-background *:data-[slot=selected-option]:border-x-0 *:data-[slot=selected-option]:border-t-0 lg:absolute lg:inset-x-0 lg:-top-[calc(46px-1px)] lg:-ml-[1px] lg:min-w-[calc(100%+1px)] *:lg:data-[slot=selected-option]:border-t *:lg:data-[slot=selected-option]:border-b-0 *:lg:data-[slot=selected-option]:border-l"
+      className="bg-background *:data-[slot=selected-option]:border-x-0 *:data-[slot=selected-option]:border-t-0 lg:absolute lg:inset-x-0 lg:-top-[calc(3.25rem-1px)] lg:-ml-[1px] lg:min-w-[calc(100%+1px)] *:lg:data-[slot=selected-option]:border-t *:lg:data-[slot=selected-option]:border-b-0 *:lg:data-[slot=selected-option]:border-l"
     >
       {previewOptions.map((option, index) => (
         <ListboxOption
           key={option.value}
           value={option.value}
           aria-selected={preview === option.value}
-          className="flex items-center justify-between py-1.25 lg:px-3"
+          className="flex items-center justify-between py-1.25 lg:px-3 lg:py-2"
         >
           <TextMono className="group-data-active/option:text-white">
             {option.label}

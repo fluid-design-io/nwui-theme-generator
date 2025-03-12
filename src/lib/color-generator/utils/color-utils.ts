@@ -55,7 +55,34 @@ export function getDarkVariant(color: ColorInstance, depth = 0): ColorInstance {
 /**
  * Generate shades of grey based on a color
  */
-export function generateGreyScale(
+export function generateGreyScaleIos(
+  baseColor: ColorInstance,
+  isLight: boolean,
+): Record<GrayScaleColors, string> {
+  if (isLight) {
+    return {
+      grey6: baseColor.saturate(0.05).lightness(99).hex(),
+      grey5: baseColor.saturate(0.05).lightness(98).hex(),
+      grey4: baseColor.saturate(0.05).lightness(95).hex(),
+      grey3: baseColor.saturate(0.05).lightness(90).hex(),
+      grey2: baseColor.saturate(0.05).lightness(80).hex(),
+      grey: baseColor.saturate(0.05).lightness(70).hex(),
+    };
+  }
+  return {
+    grey6: baseColor.saturate(0.05).lightness(2).hex(),
+    grey5: baseColor.saturate(0.05).lightness(3).hex(),
+    grey4: baseColor.saturate(0.05).lightness(5).hex(),
+    grey3: baseColor.saturate(0.05).lightness(8).hex(),
+    grey2: baseColor.saturate(0.05).lightness(15).hex(),
+    grey: baseColor.saturate(0.05).lightness(25).hex(),
+  };
+}
+
+/**
+ * Generate shades of grey based on a color
+ */
+export function generateGreyScaleAndroid(
   baseColor: ColorInstance,
   isLight: boolean,
 ): Record<GrayScaleColors, string> {

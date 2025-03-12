@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { startTransition, useMemo } from "react";
 import { getColorGenerator } from "@/lib/color-generator";
 import { PopoverPanel } from "@headlessui/react";
+import { SyncControlsPrimary } from "./sync-controls-primary";
 
 interface ColorPickerPanelProps {
   colorKey: keyof SyncColor;
@@ -18,13 +19,10 @@ export const ColorPickerPanel = ({
   const color = useThemeStore(
     (state) => state.colors[state.platform][state.theme][colorKey],
   );
-  const sync = useThemeStore(
-    (state) => state.sync[state.platform][colorKey as keyof SyncColor],
-  );
+  const sync = useThemeStore((state) => state.sync[state.platform]);
   const platform = useThemeStore((state) => state.platform);
   const theme = useThemeStore((state) => state.theme);
 
-  const setSync = useThemeStore((state) => state.setSync);
   const setPrimaryColor = useThemeStore((state) => state.setPrimaryColor);
   const setSecondaryColor = useThemeStore((state) => state.setSecondaryColor);
   const setAccentColor = useThemeStore((state) => state.setAccentColor);
@@ -102,13 +100,12 @@ export const ColorPickerPanel = ({
         // onMouseUp={() => setColorInput(color)}
         // onPointerUp={() => setColorInput(color)}
       />
-      <div className="px-2 py-2 xl:px-3">
-        <SyncControls
-          colorKey={colorKey}
-          isSync={sync}
-          onSyncChange={(checked) => setSync(colorKey, checked)}
-        />
-      </div>
+
+      {colorKey === "primary" ? (
+        <SyncControlsPrimary />
+      ) : (
+        <SyncControls colorKey={colorKey} />
+      )}
     </PopoverPanel>
   );
 };

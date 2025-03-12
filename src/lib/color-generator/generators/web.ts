@@ -8,12 +8,12 @@ import {
   AccentGeneratedColors,
   MutedGeneratedColors,
 } from "../types";
-
+import { SyncStatePlatform } from "@/store/theme-store";
 /**
  * Web platform color generator
  */
 export class WebColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["web"]) {
     super("web", theme, sync);
   }
 
@@ -25,7 +25,7 @@ export class WebColorGenerator extends BaseColorGenerator {
     let dark;
 
     // Generate light theme
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.primary === "all") {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor).hex(),
@@ -41,9 +41,9 @@ export class WebColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.primary === "all") {
       const darkPrimaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.primary !== "none"
           ? this.darkVariant(primaryColor.blacken(0.1))
           : primaryColor;
 
@@ -74,16 +74,16 @@ export class WebColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.secondary === "dark") {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.secondary === "dark") {
       const darkSecondaryColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.secondary === "dark"
           ? this.darkVariant(secondaryColor.blacken(0.1))
           : secondaryColor;
 
@@ -106,16 +106,16 @@ export class WebColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.accent === "dark") {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.accent === "dark") {
       const darkAccentColor =
-        this.theme === "light" && this.sync
+        this.theme === "light" && this.sync.accent === "dark"
           ? this.darkVariant(accentColor.blacken(0.1))
           : accentColor;
 
@@ -136,14 +136,14 @@ export class WebColorGenerator extends BaseColorGenerator {
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync) {
+    if (this.theme === "light" || this.sync.muted === "dark") {
       light = {
         muted: mutedColor.lightness(91).desaturate(0.75).hex(),
         mutedForeground: mutedColor.lightness(58).desaturate(0.2).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync) {
+    if (this.theme === "dark" || this.sync.muted === "dark") {
       dark = {
         muted: mutedColor.lightness(14).desaturate(0.2).hex(),
         mutedForeground: mutedColor.lightness(65).desaturate(0.2).hex(),

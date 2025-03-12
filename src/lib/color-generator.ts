@@ -1,4 +1,9 @@
-import { Platform, Theme, ColorState } from "@/store/theme-store";
+import {
+  Platform,
+  Theme,
+  ColorState,
+  SyncStatePlatform,
+} from "@/store/theme-store";
 import Color, { ColorInstance } from "color";
 
 // Types for generated colors from different base colors
@@ -50,9 +55,13 @@ export type MutedGeneratedColors = Pick<
 export abstract class BaseColorGenerator {
   protected platform: Platform;
   protected theme: Theme;
-  protected sync: boolean;
+  protected sync: SyncStatePlatform[Platform];
 
-  constructor(platform: Platform, theme: Theme, sync: boolean) {
+  constructor(
+    platform: Platform,
+    theme: Theme,
+    sync: SyncStatePlatform[Platform],
+  ) {
     this.platform = platform;
     this.theme = theme;
     this.sync = sync;
@@ -154,7 +163,7 @@ export abstract class BaseColorGenerator {
  * Web platform color generator
  */
 export class WebColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["web"]) {
     super("web", theme, sync);
   }
 
@@ -319,7 +328,7 @@ export class WebColorGenerator extends BaseColorGenerator {
  * iOS platform color generator
  */
 export class IOSColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["ios"]) {
     super("ios", theme, sync);
   }
 
@@ -471,7 +480,7 @@ export class IOSColorGenerator extends BaseColorGenerator {
  * Android platform color generator
  */
 export class AndroidColorGenerator extends BaseColorGenerator {
-  constructor(theme: Theme, sync: boolean) {
+  constructor(theme: Theme, sync: SyncStatePlatform["android"]) {
     super("android", theme, sync);
   }
 
@@ -634,10 +643,10 @@ export class AndroidColorGenerator extends BaseColorGenerator {
 /**
  * Factory function to get the appropriate color generator based on platform
  */
-export function getColorGenerator(
-  platform: Platform,
+export function getColorGenerator<T extends Platform>(
+  platform: T,
   theme: Theme,
-  sync: boolean,
+  sync: SyncStatePlatform[T],
 ): BaseColorGenerator {
   switch (platform) {
     case "ios":
