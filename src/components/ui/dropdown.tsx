@@ -1,10 +1,11 @@
 "use client";
 
 import * as Headless from "@headlessui/react";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import type React from "react";
 import { Button } from "./button";
 import { Link } from "./link";
+import { cva } from "class-variance-authority";
 
 export function Dropdown(props: Headless.MenuProps) {
   return <Headless.Menu {...props} />;
@@ -27,7 +28,7 @@ export function DropdownMenu({
       {...props}
       transition
       anchor={anchor}
-      className={clsx(
+      className={cn(
         className,
         // Anchor positioning
         "[--anchor-gap:--spacing(2)] [--anchor-padding:--spacing(1)] data-[anchor~=end]:[--anchor-offset:6px] data-[anchor~=start]:[--anchor-offset:-6px] sm:data-[anchor~=end]:[--anchor-offset:4px] sm:data-[anchor~=start]:[--anchor-offset:-4px]",
@@ -50,21 +51,36 @@ export function DropdownMenu({
   );
 }
 
-export function DropdownItem({
-  className,
-  ...props
-}: { className?: string } & (
+const dropdownItemVariants = cva(
+  "group cursor-default rounded-lg px-3.5 py-2.5 sm:px-3 sm:py-1.5",
+  {
+    variants: {
+      variant: {
+        default: "text-foreground data-focus:bg-blue-500 data-focus:text-white",
+        destructive:
+          "text-red-600 data-focus:bg-red-600 dark:data-focus:bg-red-400 data-focus:text-white sm:text-red-600 dark:text-red-400 dark:sm:text-red-400",
+      },
+    },
+  },
+);
+
+type DropdownItemProps = {
+  className?: string;
+  variant?: "default" | "destructive";
+} & (
   | Omit<Headless.MenuItemProps<"button">, "as" | "className">
   | Omit<Headless.MenuItemProps<typeof Link>, "as" | "className">
-)) {
-  const classes = clsx(
-    className,
-    // Base styles
-    "group cursor-default rounded-lg px-3.5 py-2.5 sm:px-3 sm:py-1.5",
+);
+
+export function DropdownItem({
+  className,
+  variant = "default",
+  ...props
+}: DropdownItemProps) {
+  const classes = cn(
+    dropdownItemVariants({ variant }),
     // Text styles
-    "text-left text-base/6 text-foreground sm:text-sm/6 forced-colors:text-[CanvasText]",
-    // Focus
-    "data-focus:bg-blue-500 data-focus:text-white",
+    "text-left text-base/6 sm:text-sm/6 forced-colors:text-[CanvasText]",
     // Disabled state
     "data-disabled:opacity-50",
     // Forced colors mode
@@ -76,6 +92,7 @@ export function DropdownItem({
     "*:data-[slot=icon]:text-muted-foreground data-focus:*:data-[slot=icon]:text-white dark:data-focus:*:data-[slot=icon]:text-white",
     // Avatar
     "*:data-[slot=avatar]:mr-2.5 *:data-[slot=avatar]:-ml-1 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:mr-2 sm:*:data-[slot=avatar]:size-5",
+    className,
   );
 
   return "href" in props ? (
@@ -97,7 +114,7 @@ export function DropdownHeader({
   return (
     <div
       {...props}
-      className={clsx(className, "col-span-5 px-3.5 pt-2.5 pb-1 sm:px-3")}
+      className={cn(className, "col-span-5 px-3.5 pt-2.5 pb-1 sm:px-3")}
     />
   );
 }
@@ -112,7 +129,7 @@ export function DropdownSection({
   return (
     <Headless.MenuSection
       {...props}
-      className={clsx(
+      className={cn(
         className,
         // Define grid at the section level instead of the item level if subgrid is supported
         "col-span-full supports-[grid-template-columns:subgrid]:grid supports-[grid-template-columns:subgrid]:grid-cols-[auto_1fr_1.5rem_0.5rem_auto]",
@@ -131,7 +148,7 @@ export function DropdownHeading({
   return (
     <Headless.MenuHeading
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "text-muted-foreground col-span-full grid grid-cols-[1fr_auto] gap-x-12 px-3.5 pt-2 pb-1 text-sm/5 font-medium sm:px-3 sm:text-xs/5",
       )}
@@ -149,7 +166,7 @@ export function DropdownDivider({
   return (
     <Headless.MenuSeparator
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "col-span-full mx-3.5 my-1 h-px border-0 bg-zinc-950/5 sm:mx-3 dark:bg-white/10 forced-colors:bg-[CanvasText]",
         "bg-border col-span-full mx-3.5 my-1 h-px border-0 sm:mx-3",
@@ -166,7 +183,7 @@ export function DropdownLabel({
     <Headless.Label
       {...props}
       data-slot="label"
-      className={clsx(className, "col-start-2 row-start-1")}
+      className={cn(className, "col-start-2 row-start-1")}
       {...props}
     />
   );
@@ -183,7 +200,7 @@ export function DropdownDescription({
     <Headless.Description
       data-slot="description"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "text-muted-foreground col-span-2 col-start-2 row-start-2 text-sm/5 group-data-focus:text-white sm:text-xs/5",
       )}
@@ -203,15 +220,12 @@ export function DropdownShortcut({
     <Headless.Description
       as="kbd"
       {...props}
-      className={clsx(
-        className,
-        "col-start-5 row-start-1 flex justify-self-end",
-      )}
+      className={cn(className, "col-start-5 row-start-1 flex justify-self-end")}
     >
       {(Array.isArray(keys) ? keys : keys.split("")).map((char, index) => (
         <kbd
           key={index}
-          className={clsx([
+          className={cn([
             "text-muted-foreground min-w-[2ch] text-center font-sans capitalize group-data-focus:text-white",
             // Make sure key names that are longer than one character (like "Tab") have extra space
             index > 0 && char.length > 1 && "pl-1",

@@ -6,18 +6,12 @@ import { SyncColor, useThemeStore } from "@/store/theme-store";
 import { useEffect, useRef, useState } from "react";
 import { ColorDisplayButton } from "./color-display-button";
 import { ColorPickerPanel } from "./color-picker-panel";
-import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 
 import {
   ColorPickerModifier,
   useColorPickerShortcuts,
 } from "@/hooks/use-theme-shortcuts";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownItem,
-  DropdownMenu,
-} from "../ui/dropdown";
+import { ColorPickerOptions } from "./color-picker-options";
 
 export const ColorPicker = ({
   title,
@@ -28,7 +22,6 @@ export const ColorPicker = ({
   colorKey: keyof SyncColor;
   modifier: ColorPickerModifier;
 }) => {
-  const platform = useThemeStore((state) => state.platform);
   const color = useThemeStore(
     (state) => state.colors[state.platform][state.theme][colorKey],
   );
@@ -64,26 +57,7 @@ export const ColorPicker = ({
         "md:nth-[3]:border-t-0 md:nth-[4]:border-t-0",
       )}
     >
-      <Dropdown>
-        <DropdownButton
-          className="group/options !absolute top-0 right-0 rounded-none data-focus:inset-ring-2 data-focus:inset-ring-blue-500"
-          plain
-        >
-          <EllipsisVerticalIcon className="text-border mt-2 size-4 opacity-35" />
-          <span className="sr-only">Options</span>
-        </DropdownButton>
-        <DropdownMenu anchor="bottom end">
-          <DropdownItem disabled={platform === "ios"}>
-            Copy from iOS
-          </DropdownItem>
-          <DropdownItem disabled={platform === "android"}>
-            Copy from Android
-          </DropdownItem>
-          <DropdownItem disabled={platform === "web"}>
-            Copy from Web
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      <ColorPickerOptions colorKey={colorKey} />
       <Popover className="group/color-picker">
         <PopoverButton
           ref={popoverRef}
