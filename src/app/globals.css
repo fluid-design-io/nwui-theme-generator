@@ -126,11 +126,6 @@
     right: 0;
   }
 }
-
-@utility scrollbar {
-  scrollbar-color: var(--color-border) var(--color-background);
-}
-
 /* A hack to check likely a phiscal keyboard device */
 @custom-variant pointer-fine (@media (pointer: fine));
 
@@ -155,12 +150,39 @@
   }
 }
 
-.react-colorful {
-  width: var(--popover-width) !important;
-  height: var(--popover-width) !important;
+@layer components {
+  .react-colorful {
+    width: var(--popover-width) !important;
+    height: var(--popover-width) !important;
+  }
+
+  .react-colorful__saturation,
+  .react-colorful__last-control {
+    border-radius: 0px !important;
+  }
 }
 
-.react-colorful__saturation,
-.react-colorful__last-control {
-  border-radius: 0px !important;
+@layer utilities {
+  .code-block::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  .code-block::-webkit-scrollbar-track {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .code-block::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 100vh;
+    border: 4px solid var(--background);
+  }
+  .code-block:hover::-webkit-scrollbar-thumb {
+    background: var(--border);
+  }
+
+  .code-block::-webkit-scrollbar-thumb:hover {
+    background: var(--border);
+  }
 }
