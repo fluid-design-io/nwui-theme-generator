@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Tab,
@@ -18,6 +18,7 @@ import {
   ClipboardDocumentListIcon,
 } from "@heroicons/react/16/solid";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 const CopyButton = ({ onCopy }: { onCopy: () => void }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -45,8 +46,20 @@ const CopyButton = ({ onCopy }: { onCopy: () => void }) => {
 };
 
 export function ThemeCodeGen({ slot }: { slot: "desktop" | "mobile" }) {
+  const [isLoading, setIsLoading] = useState(true);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isMounted = useIsMounted();
 
+  useEffect(() => {
+    if (isMounted()) {
+      setIsLoading(false);
+    }
+  }, [isMounted]);
+
+  if (isLoading) {
+    if (slot === "mobile") return null;
+    return <CodeGenSkeleton />;
+  }
   if (!isDesktop && slot === "desktop") return null;
   if (isDesktop && slot === "mobile") return null;
 
@@ -84,5 +97,26 @@ export const ThemeCodeGenContent = () => {
         </TabPanel>
       </TabPanels>
     </TabGroup>
+  );
+};
+
+const CodeGenSkeleton = () => {
+  return (
+    <div className="hidden lg:block">
+      <div className="line-t lg:line-t/half flex items-stretch justify-between lg:mt-8">
+        <div className="flex">
+          <div className="from-border/50 to-border border-r bg-gradient-to-b from-[calc(100%-4px)] to-[calc(100%-4px)] p-3 sm:px-6">
+            <TextMono>globals.css</TextMono>
+          </div>
+          <div className="border-r p-3 sm:px-6">
+            <TextMono>colors.ts</TextMono>
+          </div>
+        </div>
+        <CopyButton onCopy={() => void 0} />
+      </div>
+      <div className="line-y lg:line-y/half">
+        <CodePreview code="" language="css" />
+      </div>
+    </div>
   );
 };

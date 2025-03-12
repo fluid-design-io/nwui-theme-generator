@@ -1,9 +1,11 @@
 import { useThemeStore } from "@/store/theme-store";
 import { getRgbValues } from "@/lib/utils/color";
 import dedent from "dedent";
+import { useDeferredValue } from "react";
 
 export const useGlobalsCssTemplate = () => {
-  const colors = useThemeStore((state) => state.colors);
+  const _colors = useThemeStore((state) => state.colors);
+  const colors = useDeferredValue(_colors);
 
   return dedent`
 @tailwind base;
@@ -22,7 +24,7 @@ export const useGlobalsCssTemplate = () => {
     --primary-foreground: ${getRgbValues(colors.ios.light.primaryForeground)};
     --secondary: ${getRgbValues(colors.ios.light.secondary)};
     --secondary-foreground: ${getRgbValues(
-      colors.ios.light.secondaryForeground
+      colors.ios.light.secondaryForeground,
     )};
     --muted: ${getRgbValues(colors.ios.light.muted)};
     --muted-foreground: ${getRgbValues(colors.ios.light.mutedForeground)};
@@ -30,7 +32,7 @@ export const useGlobalsCssTemplate = () => {
     --accent-foreground: ${getRgbValues(colors.ios.light.accentForeground)};
     --destructive: ${getRgbValues(colors.ios.light.destructive)};
     --destructive-foreground: ${getRgbValues(
-      colors.ios.light.destructiveForeground
+      colors.ios.light.destructiveForeground,
     )};
     --border: ${getRgbValues(colors.ios.light.border)};
     --input: ${getRgbValues(colors.ios.light.input)};
@@ -40,31 +42,31 @@ export const useGlobalsCssTemplate = () => {
     --android-foreground: ${getRgbValues(colors.android.light.foreground)};
     --android-card: ${getRgbValues(colors.android.light.card)};
     --android-card-foreground: ${getRgbValues(
-      colors.android.light.cardForeground
+      colors.android.light.cardForeground,
     )};
     --android-popover: ${getRgbValues(colors.android.light.popover)};
     --android-popover-foreground: ${getRgbValues(
-      colors.android.light.popoverForeground
+      colors.android.light.popoverForeground,
     )};
     --android-primary: ${getRgbValues(colors.android.light.primary)};
     --android-primary-foreground: ${getRgbValues(
-      colors.android.light.primaryForeground
+      colors.android.light.primaryForeground,
     )};
     --android-secondary: ${getRgbValues(colors.android.light.secondary)};
     --android-secondary-foreground: ${getRgbValues(
-      colors.android.light.secondaryForeground
+      colors.android.light.secondaryForeground,
     )};
     --android-muted: ${getRgbValues(colors.android.light.muted)};
     --android-muted-foreground: ${getRgbValues(
-      colors.android.light.mutedForeground
+      colors.android.light.mutedForeground,
     )};
     --android-accent: ${getRgbValues(colors.android.light.accent)};
     --android-accent-foreground: ${getRgbValues(
-      colors.android.light.accentForeground
+      colors.android.light.accentForeground,
     )};
     --android-destructive: ${getRgbValues(colors.android.light.destructive)};
     --android-destructive-foreground: ${getRgbValues(
-      colors.android.light.destructiveForeground
+      colors.android.light.destructiveForeground,
     )};
     --android-border: ${getRgbValues(colors.android.light.border)};
     --android-input: ${getRgbValues(colors.android.light.input)};
@@ -83,7 +85,7 @@ export const useGlobalsCssTemplate = () => {
       --primary-foreground: ${getRgbValues(colors.ios.dark.primaryForeground)};
       --secondary: ${getRgbValues(colors.ios.dark.secondary)};
       --secondary-foreground: ${getRgbValues(
-        colors.ios.dark.secondaryForeground
+        colors.ios.dark.secondaryForeground,
       )};
       --muted: ${getRgbValues(colors.ios.dark.muted)};
       --muted-foreground: ${getRgbValues(colors.ios.dark.mutedForeground)};
@@ -91,7 +93,7 @@ export const useGlobalsCssTemplate = () => {
       --accent-foreground: ${getRgbValues(colors.ios.dark.accentForeground)};
       --destructive: ${getRgbValues(colors.ios.dark.destructive)};
       --destructive-foreground: ${getRgbValues(
-        colors.ios.dark.destructiveForeground
+        colors.ios.dark.destructiveForeground,
       )};
       --border: ${getRgbValues(colors.ios.dark.border)};
       --input: ${getRgbValues(colors.ios.dark.input)};
@@ -101,31 +103,31 @@ export const useGlobalsCssTemplate = () => {
       --android-foreground: ${getRgbValues(colors.android.dark.foreground)};
       --android-card: ${getRgbValues(colors.android.dark.card)};
       --android-card-foreground: ${getRgbValues(
-        colors.android.dark.cardForeground
+        colors.android.dark.cardForeground,
       )};
       --android-popover: ${getRgbValues(colors.android.dark.popover)};
       --android-popover-foreground: ${getRgbValues(
-        colors.android.dark.popoverForeground
+        colors.android.dark.popoverForeground,
       )};
       --android-primary: ${getRgbValues(colors.android.dark.primary)};
       --android-primary-foreground: ${getRgbValues(
-        colors.android.dark.primaryForeground
+        colors.android.dark.primaryForeground,
       )};
       --android-secondary: ${getRgbValues(colors.android.dark.secondary)};
       --android-secondary-foreground: ${getRgbValues(
-        colors.android.dark.secondaryForeground
+        colors.android.dark.secondaryForeground,
       )};
       --android-muted: ${getRgbValues(colors.android.dark.muted)};
       --android-muted-foreground: ${getRgbValues(
-        colors.android.dark.mutedForeground
+        colors.android.dark.mutedForeground,
       )};
       --android-accent: ${getRgbValues(colors.android.dark.accent)};
       --android-accent-foreground: ${getRgbValues(
-        colors.android.dark.accentForeground
+        colors.android.dark.accentForeground,
       )};
       --android-destructive: ${getRgbValues(colors.android.dark.destructive)};
       --android-destructive-foreground: ${getRgbValues(
-        colors.android.dark.destructiveForeground
+        colors.android.dark.destructiveForeground,
       )};
       --android-border: ${getRgbValues(colors.android.dark.border)};
       --android-input: ${getRgbValues(colors.android.dark.input)};

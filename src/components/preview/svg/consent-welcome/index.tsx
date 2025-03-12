@@ -5,13 +5,14 @@ import { ConsentWelcomeAndroid } from "./android";
 import { ConsentWelcomeWeb } from "./web";
 import { useThemeStore } from "@/store/theme-store";
 
+const platformComponents = {
+  ios: ConsentWelcomeIos,
+  android: ConsentWelcomeAndroid,
+  web: ConsentWelcomeWeb,
+};
+
 export const ConsentWelcome = () => {
-  const { platform } = useThemeStore();
-  if (platform === "ios") {
-    return <ConsentWelcomeIos className='w-full h-full' />;
-  } else if (platform === "android") {
-    return <ConsentWelcomeAndroid className='w-full h-full' />;
-  } else {
-    return <ConsentWelcomeWeb className='w-full h-full' />;
-  }
+  const platform = useThemeStore((state) => state.platform);
+  const Component = platformComponents[platform];
+  return <Component className="h-full w-full" />;
 };

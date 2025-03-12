@@ -1,11 +1,13 @@
 import { useThemeStore } from "@/store/theme-store";
 import Color from "color";
 import dedent from "dedent";
+import { useDeferredValue } from "react";
 
 const c = (color: string) => Color(color).rgb().toString();
 
 export const useColorsTsTemplate = () => {
-  const colors = useThemeStore((state) => state.colors);
+  const _colors = useThemeStore((state) => state.colors);
+  const colors = useDeferredValue(_colors);
 
   return dedent`
   import { Platform } from 'react-native';

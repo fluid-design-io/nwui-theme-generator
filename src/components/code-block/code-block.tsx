@@ -21,7 +21,7 @@ export function CodeBlock({
       void highlight(
         children,
         language,
-        resolvedTheme === "dark" ? "github-dark" : "github-light"
+        resolvedTheme === "dark" ? "github-dark" : "github-light",
       ).then(setNodes);
     }
   }, [children, language, resolvedTheme]);
