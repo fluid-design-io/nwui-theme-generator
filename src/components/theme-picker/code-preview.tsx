@@ -7,9 +7,9 @@ interface CodePreviewProps {
 
 export const CodePreview = ({ code, language }: CodePreviewProps) => {
   return (
-    <div className='bg-border p-2'>
-      <div className='flex items-center rounded-2xl bg-background sm:rounded-4xl'>
-        <div className='max-h-120 max-w-[calc(100vw-2rem)] scrollbar overflow-y-auto min-h-120 w-full sm:p-10 p-6 selection:bg-muted'>
+    <div className="bg-border p-2">
+      <div className="bg-background flex items-center rounded-2xl sm:rounded-4xl">
+        <div className="scrollbar selection:bg-muted max-h-120 min-h-120 w-full max-w-[calc(100vw-1rem)] overflow-y-auto p-6 sm:p-10">
           <CodeBlock language={language}>{code}</CodeBlock>
         </div>
       </div>

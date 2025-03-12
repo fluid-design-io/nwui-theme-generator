@@ -6,14 +6,14 @@ import { ThemeKeyboardShortcuts } from "@/components/theme-picker/keyboard-short
 import { ThemePalettes } from "@/components/theme-picker/palettes";
 export default function Home() {
   return (
-    <div className="line-y mt-12 grid gap-x-10 sm:mt-20 lg:mt-24 lg:grid-cols-[3.5fr_2fr]">
+    <div className="line-y mt-12 grid gap-x-10 sm:mt-20 lg:grid-cols-[3.5fr_2fr]">
       <div className="lg:border-r">
         <ThemeKeyboardShortcuts />
         <ThemePickerHeader />
         <ThemePalettes />
         <ThemeCodeGen slot="desktop" />
       </div>
-      <div className="@container/preview relative isolate flex flex-1 flex-col lg:border-l">
+      <div className="line-b lg:line-b-none @container/preview relative isolate flex flex-1 flex-col lg:border-l">
         <PreviewBackground />
         <Preview />
       </div>

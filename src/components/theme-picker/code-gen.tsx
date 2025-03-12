@@ -64,7 +64,7 @@ export const ThemeCodeGenContent = () => {
 
   return (
     <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-      <div className="line-t lg:line-t/half mt-8 flex items-stretch justify-between">
+      <div className="line-t lg:line-t/half mt-14 flex items-stretch justify-between lg:mt-8">
         <TabList>
           <Tab className="data-hover:not-data-selected:bg-border/35 data-selected:from-border/50 data-selected:to-border border-r p-3 focus:not-data-focus:outline-none data-focus:-outline-offset-2 data-focus:outline-blue-500 data-selected:bg-gradient-to-b data-selected:from-[calc(100%-4px)] data-selected:to-[calc(100%-4px)] sm:px-6">
             <TextMono>globals.css</TextMono>

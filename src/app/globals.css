@@ -95,6 +95,14 @@
   }
 }
 
+@utility line-b/none {
+  @apply line-b;
+
+  &::after {
+    display: none;
+  }
+}
+
 @utility line-t {
   position: relative;
 
