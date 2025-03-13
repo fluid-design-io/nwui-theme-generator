@@ -121,21 +121,21 @@ export abstract class BaseColorGenerator {
   ): Record<GrayScaleColors, string> {
     if (isLight) {
       return {
-        grey6: baseColor.saturate(0.05).lightness(99).hex(),
-        grey5: baseColor.saturate(0.05).lightness(98).hex(),
-        grey4: baseColor.saturate(0.05).lightness(95).hex(),
-        grey3: baseColor.saturate(0.05).lightness(90).hex(),
-        grey2: baseColor.saturate(0.05).lightness(80).hex(),
-        grey: baseColor.saturate(0.05).lightness(70).hex(),
+        grey6: baseColor.desaturate(0.95).lightness(99).hex(),
+        grey5: baseColor.desaturate(0.95).lightness(98).hex(),
+        grey4: baseColor.desaturate(0.95).lightness(95).hex(),
+        grey3: baseColor.desaturate(0.95).lightness(90).hex(),
+        grey2: baseColor.desaturate(0.95).lightness(80).hex(),
+        grey: baseColor.desaturate(0.95).lightness(70).hex(),
       };
     }
     return {
-      grey6: baseColor.saturate(0.05).lightness(2).hex(),
-      grey5: baseColor.saturate(0.05).lightness(3).hex(),
-      grey4: baseColor.saturate(0.05).lightness(5).hex(),
-      grey3: baseColor.saturate(0.05).lightness(8).hex(),
-      grey2: baseColor.saturate(0.05).lightness(15).hex(),
-      grey: baseColor.saturate(0.05).lightness(25).hex(),
+      grey6: baseColor.desaturate(0.95).lightness(2).hex(),
+      grey5: baseColor.desaturate(0.95).lightness(3).hex(),
+      grey4: baseColor.desaturate(0.95).lightness(5).hex(),
+      grey3: baseColor.desaturate(0.95).lightness(8).hex(),
+      grey2: baseColor.desaturate(0.95).lightness(15).hex(),
+      grey: baseColor.desaturate(0.95).lightness(25).hex(),
     };
   }
 
@@ -347,7 +347,7 @@ export class IOSColorGenerator extends BaseColorGenerator {
         primaryForeground: this.contrastColor(primaryColor, 3).hex(),
         background: primaryColor.lightness(99.5).hex(),
         foreground: this.contrastColor(primaryColor.lightness(98)).hex(),
-        muted: primaryColor.lightness(91).desaturate(0.75).hex(), // Less desaturated
+        muted: primaryColor.desaturate(0.85).lightness(91).hex(),
         mutedForeground: primaryColor.lightness(58).desaturate(0.2).hex(),
         border: primaryColor.lightness(92).desaturate(0.3).hex(),
         input: primaryColor.lightness(88).desaturate(0.3).hex(),

@@ -3,6 +3,8 @@
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/theme-store";
 import { cva } from "class-variance-authority";
+import { previewAtom } from "./dropdown";
+import { useAtomValue } from "jotai";
 
 const frameVariants = cva(
   "ring-border transition-all overflow-hidden flex m-4 lg:m-8 2xl:h-full",
@@ -13,6 +15,11 @@ const frameVariants = cva(
         android: "ring-5 rounded-2xl",
         web: "ring-2 rounded-md",
       },
+      screen: {
+        "color-grid": "ring-0 rounded-none",
+        messaging: "",
+        consent: "",
+      },
     },
   },
 );
@@ -21,9 +28,10 @@ export const Frame = ({ children }: { children: React.ReactNode }) => {
   const platform = useThemeStore((state) => state.platform);
   const theme = useThemeStore((state) => state.theme);
   const colors = useThemeStore((state) => state.colors);
+  const screen = useAtomValue(previewAtom);
   return (
     <div
-      className={cn(frameVariants({ variant: platform }), {
+      className={cn(frameVariants({ variant: platform, screen }), {
         "scheme-dark": theme === "dark",
         "scheme-light": theme === "light",
       })}

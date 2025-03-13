@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme-store";
-import { PreviewOption } from "@/components/preview/dropdown";
+import { PreviewSelector } from "@/components/preview/dropdown";
 
 export function useThemeShortcuts() {
   const setPlatform = useThemeStore((state) => state.setPlatform);
@@ -66,8 +66,8 @@ export function useColorPickerShortcuts(modifier: ColorPickerModifier) {
 }
 
 export function usePreviewShortcuts(
-  previewOptions: PreviewOption[],
-  setPreview: (value: PreviewOption["value"]) => void,
+  previewOptions: PreviewSelector[],
+  setPreview: (value: PreviewSelector["value"]) => void,
 ) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

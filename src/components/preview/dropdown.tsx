@@ -5,12 +5,14 @@ import { Listbox, ListboxOption } from "@/components/ui/listbox";
 import { TextMono } from "../ui/text";
 import { usePreviewShortcuts } from "@/hooks/use-theme-shortcuts";
 
-export type PreviewOption = {
+export type PreviewOption = "consent" | "messaging" | "color-grid";
+
+export type PreviewSelector = {
   label: string;
-  value: "consent" | "messaging";
+  value: PreviewOption;
 };
 
-const previewOptions: PreviewOption[] = [
+const previewOptions: PreviewSelector[] = [
   {
     label: "Consent Welcome",
     value: "consent",
@@ -19,9 +21,13 @@ const previewOptions: PreviewOption[] = [
     label: "Messaging",
     value: "messaging",
   },
+  {
+    label: "Color Grid",
+    value: "color-grid",
+  },
 ];
 
-export const previewAtom = atom<"consent" | "messaging">("consent");
+export const previewAtom = atom<PreviewOption>("consent");
 
 export const PreviewDropDown = () => {
   const [preview, setPreview] = useAtom(previewAtom);

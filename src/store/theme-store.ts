@@ -78,13 +78,6 @@ interface ThemeState {
   setSync: SyncStateSetter;
   reset: (colorKey: keyof ColorState) => void;
   resetAll: () => void;
-  copyFromPlatform: (
-    fromPlatform: Platform,
-    toPlatform: Platform,
-    options?: {
-      colors: Record<keyof SyncColor, Record<Theme, boolean>>;
-    },
-  ) => void;
   getCssVariables: () => string;
 }
 
@@ -441,90 +434,6 @@ export const useThemeStore = create<ThemeState>()(
       getCssVariables: () => {
         const state = get();
         return generateCssVariables(state.colors[state.platform][state.theme]);
-      },
-      copyFromPlatform: (
-        fromPlatform: Platform,
-        toPlatform: Platform,
-        options?: {
-          colors: Record<keyof SyncColor, Record<Theme, boolean>>;
-        },
-      ) => {
-        set(
-          produce((state: ThemeState) => {
-            // If no options provided, copy all colors for both themes
-            if (!options) {
-              state.colors[toPlatform] = {
-                light: { ...state.colors[fromPlatform].light },
-                dark: { ...state.colors[fromPlatform].dark },
-              };
-              return;
-            }
-
-            // Helper function to copy primary-related colors for a specific theme
-            const copyPrimaryColors = (theme: Theme) => {
-              const primaryRelatedKeys: (keyof ColorState)[] = [
-                "primary",
-                "primaryForeground",
-                "background",
-                "foreground",
-                "muted",
-                "mutedForeground",
-                "border",
-                "input",
-                "ring",
-                "grey6",
-                "grey5",
-                "grey4",
-                "grey3",
-                "grey2",
-                "grey",
-              ];
-
-              primaryRelatedKeys.forEach((key) => {
-                state.colors[toPlatform][theme][key] =
-                  state.colors[fromPlatform][theme][key];
-              });
-            };
-
-            // Helper function to copy color and its foreground for a specific theme
-            const copyColorWithForeground = (
-              colorKey: Exclude<keyof SyncColor, "primary">,
-              theme: Theme,
-            ) => {
-              const mainKey = colorKey;
-              const foregroundKey = `${colorKey}Foreground` as keyof ColorState;
-
-              state.colors[toPlatform][theme][mainKey] =
-                state.colors[fromPlatform][theme][mainKey];
-              state.colors[toPlatform][theme][foregroundKey] =
-                state.colors[fromPlatform][theme][foregroundKey];
-            };
-
-            // Process each color group
-            for (const [colorKey, themeOptions] of Object.entries(
-              options.colors,
-            )) {
-              if (colorKey === "primary") {
-                if (themeOptions.light) copyPrimaryColors("light");
-                if (themeOptions.dark) copyPrimaryColors("dark");
-              } else {
-                // Handle secondary, accent, and muted colors
-                if (themeOptions.light) {
-                  copyColorWithForeground(
-                    colorKey as Exclude<keyof SyncColor, "primary">,
-                    "light",
-                  );
-                }
-                if (themeOptions.dark) {
-                  copyColorWithForeground(
-                    colorKey as Exclude<keyof SyncColor, "primary">,
-                    "dark",
-                  );
-                }
-              }
-            }
-          }),
-        );
       },
     }),
     {

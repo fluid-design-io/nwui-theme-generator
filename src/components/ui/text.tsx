@@ -7,9 +7,9 @@ export function Text({
 }: React.ComponentPropsWithoutRef<"p">) {
   return (
     <p
-      data-slot='text'
+      data-slot="text"
       {...props}
-      className={clsx(className, "text-base/6 text-foreground/95 sm:text-sm/6")}
+      className={clsx(className, "text-foreground/95 text-base/6 sm:text-sm/6")}
     />
   );
 }
@@ -21,7 +21,7 @@ export function Caption({
   return (
     <p
       {...props}
-      className={clsx(className, "text-xs/4 text-muted-foreground")}
+      className={clsx(className, "text-muted-foreground text-xs/4")}
     />
   );
 }
@@ -34,8 +34,8 @@ export function TextMono({
     <span
       {...props}
       className={clsx(
+        "text-muted-foreground font-mono text-[0.8125rem]/6 font-medium tracking-widest text-pretty uppercase",
         className,
-        "font-mono text-[0.8125rem]/6 font-medium tracking-widest text-pretty uppercase text-muted-foreground"
       )}
     />
   );
@@ -50,7 +50,7 @@ export function TextLink({
       {...props}
       className={clsx(
         className,
-        "text-zinc-950 underline decoration-zinc-950/50 data-hover:decoration-zinc-950 dark:text-white dark:decoration-white/50 dark:data-hover:decoration-white"
+        "text-zinc-950 underline decoration-zinc-950/50 data-hover:decoration-zinc-950 dark:text-white dark:decoration-white/50 dark:data-hover:decoration-white",
       )}
     />
   );
@@ -77,7 +77,7 @@ export function Code({
       {...props}
       className={clsx(
         className,
-        "rounded-sm border border-zinc-950/10 bg-zinc-950/[2.5%] px-0.5 text-sm font-medium text-zinc-950 sm:text-[0.8125rem] dark:border-white/20 dark:bg-white/5 dark:text-white"
+        "rounded-sm border border-zinc-950/10 bg-zinc-950/[2.5%] px-0.5 text-sm font-medium text-zinc-950 sm:text-[0.8125rem] dark:border-white/20 dark:bg-white/5 dark:text-white",
       )}
     />
   );
