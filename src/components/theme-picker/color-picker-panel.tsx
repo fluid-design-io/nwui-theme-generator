@@ -75,7 +75,7 @@ export const ColorPickerPanel = ({
   return (
     <PopoverPanel
       focus
-      anchor="bottom"
+      anchor={{ to: "bottom", padding: 16 }}
       as="div"
       className={cn(
         "bg-border/35 -mt-px w-[var(--popover-width)] !overflow-visible backdrop-blur-xl",

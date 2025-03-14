@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { Link } from "./link";
+import { cva } from "class-variance-authority";
 
 export function Text({
   className,
@@ -26,18 +27,31 @@ export function Caption({
   );
 }
 
+const monoVariants = cva(
+  "text-muted-foreground font-mono font-medium tracking-widest text-pretty uppercase",
+  {
+    variants: {
+      size: {
+        default: "text-[0.8125rem]/6",
+        sm: "text-sm/6",
+        xs: "text-xs/4",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  },
+);
+
 export function TextMono({
   className,
+  size,
   ...props
-}: React.ComponentPropsWithoutRef<"span">) {
+}: React.ComponentPropsWithoutRef<"span"> & {
+  size?: "default" | "sm" | "xs";
+}) {
   return (
-    <span
-      {...props}
-      className={clsx(
-        "text-muted-foreground font-mono text-[0.8125rem]/6 font-medium tracking-widest text-pretty uppercase",
-        className,
-      )}
-    />
+    <span {...props} className={clsx(monoVariants({ size }), className)} />
   );
 }
 
