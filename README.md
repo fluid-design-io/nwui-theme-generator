@@ -8,6 +8,13 @@
 
 Ever wished you could wave a magic wand and generate beautiful, platform-specific color themes for your NativeWind UI apps? Well, this is pretty much that, minus the wand! 🪄
 
+![NWUI-demo-1](https://github.com/user-attachments/assets/95b37575-aa58-42ac-8898-70ae6abb3f3d)
+
+![NWUI-demo-2](https://github.com/user-attachments/assets/44e670fc-e5b0-415e-b13c-335a9e7d4435)
+
+![NWUI-demo-3](https://github.com/user-attachments/assets/402d2974-4744-429c-89cf-669bad6ebd1a)
+
+
 ## ✨ Features
 
 - 🎯 **Platform-Specific Themes**: Generate colors that feel right at home on iOS, Android, or web
