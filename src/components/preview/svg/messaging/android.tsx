@@ -63,7 +63,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
       <path fill={"var(--android-background)"} d="M0 116h412v68H0z" />
       <rect width={36} height={36} x={16} y={136} fill="#C4C4C4" rx={18} />
       <path
-        fill={"var(--android-muted)"}
+        fill={"var(--android-grey4)"}
         d="M60 152c0-11.046 8.954-20 20-20h75c11.046 0 20 8.954 20 20v4c0 11.046-8.954 20-20 20H68a8 8 0 0 1-8-8v-16Z"
       />
       <path
@@ -78,7 +78,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
       <path fill={"var(--android-background)"} d="M0 212h412v60H0z" />
       <rect width={36} height={36} x={16} y={224} fill="#C4C4C4" rx={18} />
       <path
-        fill={"var(--android-muted)"}
+        fill={"var(--android-grey4)"}
         d="M60 240c0-11.046 8.954-20 20-20h166c11.046 0 20 8.954 20 20v4c0 11.046-8.954 20-20 20H68a8 8 0 0 1-8-8v-16Z"
       />
       <path
@@ -88,7 +88,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
       <path fill={"var(--android-background)"} d="M0 272h412v60H0z" />
       <rect width={36} height={36} x={16} y={284} fill="#C4C4C4" rx={18} />
       <path
-        fill={"var(--android-muted)"}
+        fill={"var(--android-grey4)"}
         d="M60 300c0-11.046 8.954-20 20-20h43c11.046 0 20 8.954 20 20v4c0 11.046-8.954 20-20 20H68a8 8 0 0 1-8-8v-16Z"
       />
       <path
@@ -101,7 +101,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
         height={270}
         x={172}
         y={340}
-        fill={"var(--android-muted)"}
+        fill={"var(--android-grey4)"}
         rx={12}
       />
       <rect width={200} height={200} x={184} y={352} fill="#C4C4C4" rx={8} />
@@ -124,7 +124,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
       <path fill={"var(--android-background)"} d="M0 666h412v60H0z" />
       <rect width={36} height={36} x={16} y={678} fill="#C4C4C4" rx={18} />
       <path
-        fill={"var(--android-muted)"}
+        fill={"var(--android-grey4)"}
         d="M60 694c0-11.046 8.954-20 20-20h96c11.046 0 20 8.954 20 20v4c0 11.046-8.954 20-20 20H68a8 8 0 0 1-8-8v-16Z"
       />
       <path
@@ -170,7 +170,7 @@ export const MessagingAndroid = (props: SVGProps<SVGSVGElement>) => {
           height={56}
           x={96}
           y={814}
-          fill={"var(--android-muted)"}
+          fill={"var(--android-grey)"}
           rx={28}
         />
         <g clipPath="url(#f)">

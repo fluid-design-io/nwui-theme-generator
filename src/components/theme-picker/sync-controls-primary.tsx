@@ -7,12 +7,12 @@ import { Description } from "../ui/fieldset";
 
 const states: { value: SyncStatePrimary; description: string }[] = [
   {
-    value: "all",
+    value: "auto",
     description:
       "Automatically generate primary and muted colors in light and dark mode",
   },
   { value: "dark", description: "Sync primary colors in light and dark mode" },
-  { value: "none", description: "Don't sync primary colors" },
+  { value: "off", description: "Don't sync primary colors" },
 ];
 
 export const SyncControlsPrimary = () => {

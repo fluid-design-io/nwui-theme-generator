@@ -12,19 +12,25 @@ export type GrayScaleColors =
   | "grey2"
   | "grey";
 
-export type PrimaryGeneratedColors = Pick<
-  ColorState,
-  | "primary"
-  | "primaryForeground"
-  | "background"
-  | "foreground"
-  | "muted"
-  | "mutedForeground"
-  | "border"
-  | "input"
-  | "ring"
-  | GrayScaleColors
->;
+export type PrimaryGeneratedColors =
+  | Pick<ColorState, "primary" | "primaryForeground">
+  | Pick<
+      ColorState,
+      | "primary"
+      | "primaryForeground"
+      | "background"
+      | "foreground"
+      | "muted"
+      | "mutedForeground"
+      | "card"
+      | "cardForeground"
+      | "popover"
+      | "popoverForeground"
+      | "border"
+      | "input"
+      | "ring"
+      | GrayScaleColors
+    >;
 
 export type SecondaryGeneratedColors = Pick<
   ColorState,
@@ -45,6 +51,12 @@ export type MutedGeneratedColors = Pick<
   ColorState,
   "muted" | "mutedForeground"
 >;
+
+export type HSL = {
+  h: number;
+  s: number;
+  l: number;
+};
 
 // Generator return types
 export type ColorGeneratorResult<T> = Partial<Record<Theme, T>>;

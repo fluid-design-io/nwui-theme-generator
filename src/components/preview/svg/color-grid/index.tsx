@@ -65,6 +65,16 @@ const ColorGridComponent = ({ prefix = "ios" }: { prefix?: string }) => {
         name="Card Foreground"
       />
       <ColorBox
+        color={`var(--${prefix}-popover)`}
+        foregroundColor={`color-mix(in srgb, var(--${prefix}-popover-foreground) 50%, transparent)`}
+        name="Popover"
+      />
+      <ColorBox
+        color={`var(--${prefix}-popover-foreground)`}
+        foregroundColor={`color-mix(in srgb, var(--${prefix}-popover) 50%, transparent)`}
+        name="Popover Foreground"
+      />
+      <ColorBox
         color={`var(--${prefix}-destructive)`}
         foregroundColor={`var(--${prefix}-destructive-foreground)`}
         name="Destructive"
@@ -73,11 +83,6 @@ const ColorGridComponent = ({ prefix = "ios" }: { prefix?: string }) => {
         color={`var(--${prefix}-destructive-foreground)`}
         foregroundColor={`var(--${prefix}-destructive)`}
         name="Destructive Foreground"
-      />
-      <ColorBox
-        color={`var(--${prefix}-root)`}
-        foregroundColor={`color-mix(in srgb, var(--${prefix}-foreground) 50%, transparent)`}
-        name="Root"
       />
       {Array.from({ length: 6 }).map((_, index) => {
         const grayExt = index === 0 ? "" : index + 1;
@@ -90,16 +95,17 @@ const ColorGridComponent = ({ prefix = "ios" }: { prefix?: string }) => {
           />
         );
       })}
-      {["border", "input", "ring"].map((name, index) => {
-        return (
-          <ColorBox
-            key={`${name}-${index}`}
-            color={`var(--${prefix}-${name})`}
-            foregroundColor={`color-mix(in srgb, var(--${prefix}-foreground) 50%, transparent)`}
-            name={name}
-          />
-        );
-      })}
+
+      <ColorBox
+        color={`var(--${prefix}-border)`}
+        foregroundColor={`color-mix(in srgb, var(--${prefix}-foreground) 50%, transparent)`}
+        name="Border/ring"
+      />
+      <ColorBox
+        color={`var(--${prefix}-input)`}
+        foregroundColor={`color-mix(in srgb, var(--${prefix}-foreground) 50%, transparent)`}
+        name="Input"
+      />
     </div>
   );
 };

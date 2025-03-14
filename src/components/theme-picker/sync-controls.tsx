@@ -12,7 +12,7 @@ export const SyncControls = ({ colorKey }: SyncControlsProps) => {
   const setSync = useThemeStore((state) => state.setSync);
 
   const onSyncChange = (checked: boolean) => {
-    setSync(colorKey, checked ? "dark" : "none");
+    setSync(colorKey, checked ? "dark" : "off");
   };
 
   return (

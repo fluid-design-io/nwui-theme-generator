@@ -13,7 +13,7 @@ export default function Home() {
         <ThemePalettes />
         <ThemeCodeGen slot="desktop" />
       </div>
-      <div className="line-b lg:line-b-none @container/preview relative isolate flex flex-1 flex-col lg:border-l">
+      <div className="line-b lg:line-b-none relative isolate flex flex-1 flex-col lg:border-l">
         <PreviewBackground />
         <Preview />
       </div>

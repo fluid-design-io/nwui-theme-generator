@@ -25,7 +25,7 @@ export class WebColorGenerator extends BaseColorGenerator {
     let dark;
 
     // Generate light theme
-    if (this.theme === "light" || this.sync.primary === "all") {
+    if (this.theme === "light" || this.sync.primary === "auto") {
       light = {
         primary: primaryColor.hex(),
         primaryForeground: this.contrastColor(primaryColor).hex(),
@@ -41,9 +41,9 @@ export class WebColorGenerator extends BaseColorGenerator {
     }
 
     // Generate dark theme
-    if (this.theme === "dark" || this.sync.primary === "all") {
+    if (this.theme === "dark" || this.sync.primary === "auto") {
       const darkPrimaryColor =
-        this.theme === "light" && this.sync.primary !== "none"
+        this.theme === "light" && this.sync.primary !== "off"
           ? this.darkVariant(primaryColor.blacken(0.1))
           : primaryColor;
 

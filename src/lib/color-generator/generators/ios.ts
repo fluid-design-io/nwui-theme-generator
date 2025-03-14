@@ -2,7 +2,6 @@ import Color from "color";
 import { BaseColorGenerator } from "../base-generator";
 import {
   Theme,
-  ColorGeneratorResult,
   PrimaryGeneratedColors,
   SecondaryGeneratedColors,
   AccentGeneratedColors,
@@ -21,58 +20,141 @@ export class IOSColorGenerator extends BaseColorGenerator {
 
   generateFromPrimary(
     primary: string,
-  ): ColorGeneratorResult<PrimaryGeneratedColors> {
-    const primaryColor = Color(primary);
-    let light;
-    let dark;
+  ): Partial<Record<Theme, PrimaryGeneratedColors>> {
+    let lightPrimaryColor;
+    let darkPrimaryColor;
 
-    // Generate light theme (iOS inspired)
-    if (this.theme === "light" || this.sync.primary === "all") {
-      light = {
-        primary: primaryColor.hex(),
-        primaryForeground: this.contrastColor(primaryColor, 3).hex(),
-        background: primaryColor.lightness(99.5).hex(),
-        foreground: this.contrastColor(primaryColor.lightness(98)).hex(),
-        muted: primaryColor.lightness(91).desaturate(0.75).hex(),
-        mutedForeground: primaryColor.lightness(58).desaturate(0.2).hex(),
-        border: primaryColor.lightness(92).desaturate(0.3).hex(),
-        input: primaryColor.lightness(88).desaturate(0.3).hex(),
-        ring: primaryColor.lightness(85).desaturate(0.2).hex(),
-        // iOS-style grey scale (slightly cooler)
-        grey6: Color("#F8F9FA").hex(),
-        grey5: Color("#F1F3F5").hex(),
-        grey4: Color("#E9ECEF").hex(),
-        grey3: Color("#DEE2E6").hex(),
-        grey2: Color("#CED4DA").hex(),
-        grey: Color("#ADB5BD").hex(),
-      };
+    // Assign colors based on theme
+    if (this.theme === "light") {
+      lightPrimaryColor = Color(primary);
+      darkPrimaryColor = this.darkVariant(lightPrimaryColor);
+    } else {
+      darkPrimaryColor = Color(primary);
+      lightPrimaryColor = this.lightVariant(darkPrimaryColor);
     }
 
-    // Generate dark theme (iOS inspired)
-    if (this.theme === "dark" || this.sync.primary === "all") {
-      const darkPrimaryColor =
-        this.theme === "light" && this.sync.primary !== "none"
-          ? this.darkVariant(primaryColor.blacken(0.05))
-          : primaryColor;
+    let dark;
+    let light;
 
+    // Generate base light and dark theme if sync is not "none"
+    if (this.sync.primary !== "off") {
+      light = {
+        primary: lightPrimaryColor.hex(),
+        primaryForeground: this.contrastColor(lightPrimaryColor, 3).hex(),
+      };
       dark = {
         primary: darkPrimaryColor.hex(),
         primaryForeground: this.contrastColor(darkPrimaryColor).hex(),
-        background: darkPrimaryColor.lightness(0).hex(),
-        foreground: this.contrastColor(darkPrimaryColor.lightness(4)).hex(),
-        muted: darkPrimaryColor.lightness(14).desaturate(0.2).hex(),
-        mutedForeground: darkPrimaryColor.lightness(65).desaturate(0.2).hex(),
-        border: darkPrimaryColor.lightness(25).desaturate(0.3).hex(),
-        input: darkPrimaryColor.lightness(30).desaturate(0.3).hex(),
-        ring: darkPrimaryColor.lightness(25).desaturate(0.2).hex(),
-        // iOS-style dark grey scale
-        grey6: Color("#1A1C1E").hex(),
-        grey5: Color("#26282B").hex(),
-        grey4: Color("#2F3237").hex(),
-        grey3: Color("#3D4144").hex(),
-        grey2: Color("#52575C").hex(),
-        grey: Color("#6C7177").hex(),
       };
+    } else {
+      // Generate light or dark theme based on current theme
+      if (this.theme === "light") {
+        light = {
+          primary: lightPrimaryColor.hex(),
+          primaryForeground: this.contrastColor(lightPrimaryColor, 3).hex(),
+        };
+      } else {
+        dark = {
+          primary: darkPrimaryColor.hex(),
+          primaryForeground: this.contrastColor(darkPrimaryColor).hex(),
+        };
+      }
+    }
+
+    // Generate whole theme if sync is set to all
+    if (this.sync.primary === "auto") {
+      const l = lightPrimaryColor.l();
+      Object.assign(light || {}, {
+        background: lightPrimaryColor
+          .desaturate(0.8)
+          .lightness(95 + 0.035 * l)
+          .hex(),
+        foreground: this.contrastColor(
+          lightPrimaryColor.desaturate(0.8).lightness(95 + 0.035 * l),
+          0.035 * (100 - l),
+        ).hex(),
+        muted: lightPrimaryColor
+          .desaturate(0.85)
+          .lightness(82 + 0.05 * l)
+          .hex(),
+        mutedForeground: lightPrimaryColor
+          .desaturate(0.85)
+          .lightness(40 + 0.05 * l)
+          .hex(),
+        card: lightPrimaryColor
+          .lightness(98.5 + 0.035 * l) // allow overflow of lightness (will cap at 100)
+          .desaturate(0.3)
+          .hex(),
+        cardForeground: this.contrastColor(
+          lightPrimaryColor.lightness(98.5 + 0.035 * l),
+          0.06 * (100 - l),
+        ).hex(),
+        popover: lightPrimaryColor
+          .lightness(94 + 0.035 * l) // allow overflow of lightness (will cap at 100)
+          .desaturate(0.3)
+          .hex(),
+        popoverForeground: this.contrastColor(
+          lightPrimaryColor.lightness(94 + 0.035 * l),
+          0.06 * (100 - l),
+        ).hex(),
+        border: lightPrimaryColor
+          .lightness(92 + 0.02 * l)
+          .desaturate(0.7)
+          .hex(),
+        ring: lightPrimaryColor
+          .lightness(92 + 0.02 * l)
+          .desaturate(0.7)
+          .hex(),
+        input: lightPrimaryColor
+          .lightness(83 + 0.02 * l)
+          .desaturate(0.7)
+          .hex(),
+        ...this.generateGreyScale(lightPrimaryColor, true),
+      });
+      Object.assign(dark || {}, {
+        background: darkPrimaryColor.lightness(0.025 * (100 - l) - 0.35).hex(), // allow negative lightness (will truncate at 0)
+        foreground: this.contrastColor(
+          darkPrimaryColor.lightness(0.025 * (100 - l) - 0.35),
+          0.035 * (100 - l),
+        ).hex(),
+        muted: darkPrimaryColor
+          .lightness(37 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        mutedForeground: darkPrimaryColor
+          .lightness(77 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        card: darkPrimaryColor
+          .lightness(10 + 0.035 * l)
+          .desaturate(0.6)
+          .hex(),
+        cardForeground: this.contrastColor(
+          darkPrimaryColor.lightness(10 + 0.035 * l),
+          0.035 * (100 - l),
+        ).hex(),
+        popover: darkPrimaryColor
+          .lightness(15 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        popoverForeground: this.contrastColor(
+          darkPrimaryColor.lightness(15 + 0.035 * l),
+          0.035 * (100 - l),
+        ).hex(),
+        border: darkPrimaryColor
+          .lightness(23 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        input: darkPrimaryColor
+          .lightness(28 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        ring: darkPrimaryColor
+          .lightness(23 + 0.035 * l)
+          .desaturate(0.88)
+          .hex(),
+        ...this.generateGreyScale(darkPrimaryColor, false),
+      });
     }
 
     return {
@@ -83,21 +165,21 @@ export class IOSColorGenerator extends BaseColorGenerator {
 
   generateFromSecondary(
     secondary: string,
-  ): ColorGeneratorResult<SecondaryGeneratedColors> {
+  ): Partial<Record<Theme, SecondaryGeneratedColors>> {
     const secondaryColor = Color(secondary);
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync.secondary === "dark") {
+    if (this.theme === "light" || this.sync) {
       light = {
         secondary: secondaryColor.hex(),
         secondaryForeground: this.contrastColor(secondaryColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync.secondary === "dark") {
+    if (this.theme === "dark" || this.sync) {
       const darkSecondaryColor =
-        this.theme === "light" && this.sync.secondary === "dark"
+        this.theme === "light" && this.sync
           ? this.darkVariant(secondaryColor.blacken(0.05))
           : secondaryColor;
 
@@ -115,21 +197,21 @@ export class IOSColorGenerator extends BaseColorGenerator {
 
   generateFromAccent(
     accent: string,
-  ): ColorGeneratorResult<AccentGeneratedColors> {
+  ): Partial<Record<Theme, AccentGeneratedColors>> {
     const accentColor = Color(accent);
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync.accent === "dark") {
+    if (this.theme === "light" || this.sync) {
       light = {
         accent: accentColor.hex(),
         accentForeground: this.contrastColor(accentColor, 20).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync.accent === "dark") {
+    if (this.theme === "dark" || this.sync) {
       const darkAccentColor =
-        this.theme === "light" && this.sync.accent === "dark"
+        this.theme === "light" && this.sync
           ? this.darkVariant(accentColor.blacken(0.05))
           : accentColor;
 
@@ -145,19 +227,21 @@ export class IOSColorGenerator extends BaseColorGenerator {
     };
   }
 
-  generateFromMuted(muted: string): ColorGeneratorResult<MutedGeneratedColors> {
+  generateFromMuted(
+    muted: string,
+  ): Partial<Record<Theme, MutedGeneratedColors>> {
     const mutedColor = Color(muted);
     let light;
     let dark;
 
-    if (this.theme === "light" || this.sync.muted === "dark") {
+    if (this.theme === "light" || this.sync) {
       light = {
         muted: mutedColor.hex(),
         mutedForeground: this.contrastColor(mutedColor, 30).hex(),
       };
     }
 
-    if (this.theme === "dark" || this.sync.muted === "dark") {
+    if (this.theme === "dark" || this.sync) {
       dark = {
         muted: mutedColor.hex(),
         mutedForeground: this.contrastColor(mutedColor, 30).hex(),

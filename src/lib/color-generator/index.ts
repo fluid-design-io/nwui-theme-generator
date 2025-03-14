@@ -5,7 +5,7 @@ export * from "./generators/ios";
 export * from "./generators/android";
 export * from "./utils/color-utils";
 
-import { Platform, Theme } from "./types";
+import { Platform, Theme, SyncStatePlatform } from "@/store/theme-store";
 import { WebColorGenerator } from "./generators/web";
 import { BaseColorGenerator } from "./base-generator";
 import { IOSColorGenerator } from "./generators/ios";
@@ -17,7 +17,7 @@ import { AndroidColorGenerator } from "./generators/android";
 export function getColorGenerator(
   platform: Platform,
   theme: Theme,
-  sync: boolean,
+  sync: SyncStatePlatform[Platform],
 ): BaseColorGenerator {
   switch (platform) {
     case "ios":
@@ -31,15 +31,3 @@ export function getColorGenerator(
 }
 
 export type ColorGenerator = ReturnType<typeof getColorGenerator>;
-export type PrimaryColorGenerator = ReturnType<
-  ColorGenerator["generateFromPrimary"]
->;
-export type SecondaryColorGenerator = ReturnType<
-  ColorGenerator["generateFromSecondary"]
->;
-export type AccentColorGenerator = ReturnType<
-  ColorGenerator["generateFromAccent"]
->;
-export type MutedColorGenerator = ReturnType<
-  ColorGenerator["generateFromMuted"]
->;

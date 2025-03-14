@@ -78,7 +78,7 @@ export const ColorPickerPanel = ({
       anchor="bottom"
       as="div"
       className={cn(
-        "bg-border/50 -mt-px w-[var(--popover-width)] !overflow-visible backdrop-blur-sm",
+        "bg-border/35 -mt-px w-[var(--popover-width)] !overflow-visible backdrop-blur-xl",
         "shadow-2xl shadow-neutral-900/10",
         "inset-ring-border inset-ring",
       )}

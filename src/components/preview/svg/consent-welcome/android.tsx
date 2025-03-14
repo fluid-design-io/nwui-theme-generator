@@ -1,8 +1,6 @@
-import { useThemeStore } from "@/store/theme-store";
 import { SVGProps } from "react";
 
 export const ConsentWelcomeAndroid = (props: SVGProps<SVGSVGElement>) => {
-  const { colors, theme } = useThemeStore();
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -4,10 +4,10 @@ import { produce } from "immer";
 import Color from "color";
 import { hashStorage } from "./hash-storage";
 import {
-  AccentColorGenerator,
-  MutedColorGenerator,
-  PrimaryColorGenerator,
-  SecondaryColorGenerator,
+  AccentGeneratedColors,
+  MutedGeneratedColors,
+  PrimaryGeneratedColors,
+  SecondaryGeneratedColors,
 } from "@/lib/color-generator";
 
 type Platform = "ios" | "android" | "web";
@@ -46,8 +46,8 @@ type ColorStates = Record<Platform, Record<Theme, ColorState>>;
 
 type SyncColor = Pick<ColorState, "primary" | "secondary" | "accent" | "muted">;
 
-type SyncStatePrimary = "all" | "dark" | "none";
-type SyncStateNonPrimary = "dark" | "none";
+type SyncStatePrimary = "auto" | "dark" | "off";
+type SyncStateNonPrimary = "dark" | "off";
 
 type SyncStateSetter = <T extends keyof SyncColor>(
   syncColor: T,
@@ -70,10 +70,18 @@ interface ThemeState {
   sync: SyncStatePlatform;
   setPlatform: (platform: Platform) => void;
   setTheme: (theme: Theme) => void;
-  setPrimaryColor: (computedColors: PrimaryColorGenerator) => void;
-  setSecondaryColor: (computedColors: SecondaryColorGenerator) => void;
-  setAccentColor: (computedColors: AccentColorGenerator) => void;
-  setMutedColor: (computedColors: MutedColorGenerator) => void;
+  setPrimaryColor: (
+    computedColors: Partial<Record<Theme, PrimaryGeneratedColors>>,
+  ) => void;
+  setSecondaryColor: (
+    computedColors: Partial<Record<Theme, SecondaryGeneratedColors>>,
+  ) => void;
+  setAccentColor: (
+    computedColors: Partial<Record<Theme, AccentGeneratedColors>>,
+  ) => void;
+  setMutedColor: (
+    computedColors: Partial<Record<Theme, MutedGeneratedColors>>,
+  ) => void;
   setColor: (key: keyof ColorState, value: string) => void;
   setSync: SyncStateSetter;
   reset: (colorKey: keyof ColorState) => void;
@@ -140,62 +148,63 @@ export const DEFAULT_COLORS: ColorStates = {
       ring: "#282828",
     },
   },
+
   android: {
     light: {
-      grey6: "#f9f9ff",
-      grey5: "#d7d9e4",
-      grey4: "#b1b5c2",
-      grey3: "#717786",
-      grey2: "#414754",
-      grey: "#282c35",
-      background: "#F9F9FF",
-      foreground: "#000000",
+      grey6: "hsl(211, 100%, 99%)",
+      grey5: "hsl(211, 53%, 97%)",
+      grey4: "hsl(211, 46%, 95%)",
+      grey3: "hsl(211, 45%, 94%)",
+      grey2: "hsl(211, 44%, 93%)",
+      grey: "hsl(211, 41%, 92%)",
       root: "#ffffff",
+      background: "hsl(211, 100%, 99%)",
+      foreground: "hsl(211, 5%, 11%)",
       card: "#ffffff",
       cardForeground: "#181c23",
       popover: "#d7d9e4",
       popoverForeground: "#000000",
-      destructive: "#b91a1a",
-      destructiveForeground: "#ffffff",
-      primary: "#65558F",
+      primary: "#0070e9",
       primaryForeground: "#ffffff",
       secondary: "#b0c9ff",
-      secondaryForeground: "#ffffff",
+      secondaryForeground: "#1c3c72",
+      muted: "#d8e2ff",
+      mutedForeground: "#001a41",
       accent: "#a949cc",
       accentForeground: "#ffffff",
-      muted: "#c1c6d7",
-      mutedForeground: "#414754",
-      border: "#d7d9e4",
-      input: "#d2d2d7",
-      ring: "#d7d9e4",
+      destructive: "#ba1a1a",
+      destructiveForeground: "#ffffff",
+      border: "hsl(211, 4%, 48%)",
+      input: "hsl(211, 9%, 79%)",
+      ring: "hsl(211, 4%, 48%)",
     },
     dark: {
-      grey6: "#10131b",
-      grey5: "#282c35",
-      grey4: "#313540",
-      grey3: "#3b3f4a",
-      grey2: "#8b90a0",
-      grey: "#b1b5c2",
-      background: "#000000",
-      foreground: "#ffffff",
+      grey6: "hsl(211, 17%, 12%)",
+      grey5: "hsl(211, 18%, 15%)",
+      grey4: "hsl(211, 19%, 17%)",
+      grey3: "hsl(211, 21%, 19%)",
+      grey2: "hsl(211, 21%, 20%)",
+      grey: "hsl(211, 22%, 22%)",
+      background: "hsl(211, 15%, 11%)",
+      foreground: "hsl(211, 21%, 89%)",
       root: "#000000",
-      card: "#10131b",
-      cardForeground: "#ffffff",
-      popover: "#211e26",
-      popoverForeground: "#e0e2ed",
+      card: "hsl(211, 5%, 29%)",
+      cardForeground: "hsl(211, 8%, 79%)",
+      popover: "hsl(211, 5%, 29%)",
+      popoverForeground: "hsl(211, 8%, 79%)",
       destructive: "#93000a",
       destructiveForeground: "#ffffff",
-      primary: "#65558F",
-      primaryForeground: "#ffffff",
+      primary: "hsl(212, 100%, 29%)",
+      primaryForeground: "hsl(225, 100%, 92%)",
       secondary: "#1c3c72",
       secondaryForeground: "#ffffff",
       accent: "#53006f",
       accentForeground: "#ffffff",
-      muted: "#d8e2ff",
-      mutedForeground: "#8b90a0",
-      border: "#211e26",
-      input: "#333333",
-      ring: "#211e26",
+      muted: "hsl(280, 5%, 11%)",
+      mutedForeground: "hsl(320, 11%, 89%)",
+      border: "hsl(211, 5%, 58%)",
+      input: "hsl(211, 6%, 29%)",
+      ring: "hsl(211, 5%, 58%)",
     },
   },
   web: {
@@ -260,19 +269,19 @@ export const DEFAULT_COLORS: ColorStates = {
 
 const DEFAULT_SYNC: SyncStatePlatform = {
   ios: {
-    primary: "all",
+    primary: "auto",
     secondary: "dark",
     accent: "dark",
     muted: "dark",
   },
   android: {
-    primary: "all",
+    primary: "auto",
     secondary: "dark",
     accent: "dark",
     muted: "dark",
   },
   web: {
-    primary: "all",
+    primary: "auto",
     secondary: "dark",
     accent: "dark",
     muted: "dark",
@@ -338,7 +347,9 @@ export const useThemeStore = create<ThemeState>()(
             state.theme = theme;
           }),
         ),
-      setPrimaryColor: (computedColors: PrimaryColorGenerator) =>
+      setPrimaryColor: (
+        computedColors: Partial<Record<Theme, PrimaryGeneratedColors>>,
+      ) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform] = {
@@ -354,7 +365,9 @@ export const useThemeStore = create<ThemeState>()(
             };
           }),
         ),
-      setSecondaryColor: (computedColors: SecondaryColorGenerator) =>
+      setSecondaryColor: (
+        computedColors: Partial<Record<Theme, SecondaryGeneratedColors>>,
+      ) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform] = {
@@ -370,7 +383,9 @@ export const useThemeStore = create<ThemeState>()(
             };
           }),
         ),
-      setAccentColor: (computedColors: AccentColorGenerator) =>
+      setAccentColor: (
+        computedColors: Partial<Record<Theme, AccentGeneratedColors>>,
+      ) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform] = {
@@ -386,7 +401,9 @@ export const useThemeStore = create<ThemeState>()(
             };
           }),
         ),
-      setMutedColor: (computedColors: MutedColorGenerator) =>
+      setMutedColor: (
+        computedColors: Partial<Record<Theme, MutedGeneratedColors>>,
+      ) =>
         set(
           produce((state: ThemeState) => {
             state.colors[state.platform] = {
