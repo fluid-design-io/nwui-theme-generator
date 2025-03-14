@@ -3,11 +3,12 @@
 import { MessagingAndroid } from "./android";
 import { MessagingIos } from "./ios";
 import { useThemeStore } from "@/store/theme-store";
+import { MessagingWeb } from "./web";
 
 const platformComponents = {
   ios: MessagingIos,
   android: MessagingAndroid,
-  web: MessagingAndroid,
+  web: MessagingWeb,
 };
 
 export const Messaging = () => {

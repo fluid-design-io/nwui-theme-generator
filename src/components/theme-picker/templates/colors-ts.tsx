@@ -78,7 +78,44 @@ const ANDROID_COLORS = {
   },
 } as const;
 
-const COLORS = Platform.OS === 'ios' ? IOS_SYSTEM_COLORS : ANDROID_COLORS;
+const WEB_COLORS = {
+  white: 'rgb(255, 255, 255)',
+  black: 'rgb(0, 0, 0)',
+  light: {
+    grey6: '${c(colors.web.light.grey6)}',
+    grey5: '${c(colors.web.light.grey5)}',
+    grey4: '${c(colors.web.light.grey4)}',
+    grey3: '${c(colors.web.light.grey3)}',
+    grey2: '${c(colors.web.light.grey2)}',
+    grey: '${c(colors.web.light.grey)}',
+    background: '${c(colors.web.light.background)}',
+    foreground: '${c(colors.web.light.foreground)}',
+    root: '${c(colors.web.light.background)}',
+    card: '${c(colors.web.light.background)}',
+    destructive: '${c(colors.web.light.destructive)}',
+    primary: '${c(colors.web.light.primary)}',
+  },
+  dark: {
+    grey6: '${c(colors.web.dark.grey6)}',
+    grey5: '${c(colors.web.dark.grey5)}',
+    grey4: '${c(colors.web.dark.grey4)}',
+    grey3: '${c(colors.web.dark.grey3)}',
+    grey2: '${c(colors.web.dark.grey2)}',
+    grey: '${c(colors.web.dark.grey)}',
+    background: '${c(colors.web.dark.background)}',
+    foreground: '${c(colors.web.dark.foreground)}',
+    root: '${c(colors.web.dark.background)}',
+    card: '${c(colors.web.dark.background)}',
+    destructive: '${c(colors.web.dark.destructive)}',
+    primary: '${c(colors.web.dark.primary)}',
+  },
+} as const;
+
+const COLORS = Platform.select({
+  ios: IOS_SYSTEM_COLORS,
+  android: ANDROID_COLORS,
+  web: WEB_COLORS,
+} as const);
 
 export { COLORS };
 `;

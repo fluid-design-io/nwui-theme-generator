@@ -1,4 +1,4 @@
-# 🎨 NWUI Theme Generator (WIP 🚧)
+# 🎨 NWUI Theme Generator
 
 ![Home Page](https://github.com/user-attachments/assets/b385eabb-cd5a-4ada-8aaf-5393b4002f5d)
 

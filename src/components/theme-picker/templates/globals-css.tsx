@@ -71,6 +71,34 @@ export const useGlobalsCssTemplate = () => {
     --android-border: ${getRgbValues(colors.android.light.border)};
     --android-input: ${getRgbValues(colors.android.light.input)};
     --android-ring: ${getRgbValues(colors.android.light.ring)};
+
+    --web-background: ${getRgbValues(colors.web.light.background)};
+    --web-foreground: ${getRgbValues(colors.web.light.foreground)};
+    --web-card: ${getRgbValues(colors.web.light.card)};
+    --web-card-foreground: ${getRgbValues(colors.web.light.cardForeground)};
+    --web-popover: ${getRgbValues(colors.web.light.popover)};
+    --web-popover-foreground: ${getRgbValues(
+      colors.web.light.popoverForeground,
+    )};
+    --web-primary: ${getRgbValues(colors.web.light.primary)};
+    --web-primary-foreground: ${getRgbValues(
+      colors.web.light.primaryForeground,
+    )};
+    --web-secondary: ${getRgbValues(colors.web.light.secondary)};
+    --web-secondary-foreground: ${getRgbValues(
+      colors.web.light.secondaryForeground,
+    )};
+    --web-muted: ${getRgbValues(colors.web.light.muted)};
+    --web-muted-foreground: ${getRgbValues(colors.web.light.mutedForeground)};
+    --web-accent: ${getRgbValues(colors.web.light.accent)};
+    --web-accent-foreground: ${getRgbValues(colors.web.light.accentForeground)};
+    --web-destructive: ${getRgbValues(colors.web.light.destructive)};
+    --web-destructive-foreground: ${getRgbValues(
+      colors.web.light.destructiveForeground,
+    )};
+    --web-border: ${getRgbValues(colors.web.light.border)};
+    --web-input: ${getRgbValues(colors.web.light.input)};
+    --web-ring: ${getRgbValues(colors.web.light.ring)};
   }
 
   @media (prefers-color-scheme: dark) {
@@ -132,6 +160,36 @@ export const useGlobalsCssTemplate = () => {
       --android-border: ${getRgbValues(colors.android.dark.border)};
       --android-input: ${getRgbValues(colors.android.dark.input)};
       --android-ring: ${getRgbValues(colors.android.dark.ring)};
+
+      --web-background: ${getRgbValues(colors.web.dark.background)};
+      --web-foreground: ${getRgbValues(colors.web.dark.foreground)};
+      --web-card: ${getRgbValues(colors.web.dark.card)};
+      --web-card-foreground: ${getRgbValues(colors.web.dark.cardForeground)};
+      --web-popover: ${getRgbValues(colors.web.dark.popover)};
+      --web-popover-foreground: ${getRgbValues(
+        colors.web.dark.popoverForeground,
+      )};
+      --web-primary: ${getRgbValues(colors.web.dark.primary)};
+      --web-primary-foreground: ${getRgbValues(
+        colors.web.dark.primaryForeground,
+      )};
+      --web-secondary: ${getRgbValues(colors.web.dark.secondary)};
+      --web-secondary-foreground: ${getRgbValues(
+        colors.web.dark.secondaryForeground,
+      )};
+      --web-muted: ${getRgbValues(colors.web.dark.muted)};
+      --web-muted-foreground: ${getRgbValues(colors.web.dark.mutedForeground)};
+      --web-accent: ${getRgbValues(colors.web.dark.accent)};
+      --web-accent-foreground: ${getRgbValues(
+        colors.web.dark.accentForeground,
+      )};
+      --web-destructive: ${getRgbValues(colors.web.dark.destructive)};
+      --web-destructive-foreground: ${getRgbValues(
+        colors.web.dark.destructiveForeground,
+      )};
+      --web-border: ${getRgbValues(colors.web.dark.border)};
+      --web-input: ${getRgbValues(colors.web.dark.input)};
+      --web-ring: ${getRgbValues(colors.web.dark.ring)};
     }
   }
 }
