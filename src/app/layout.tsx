@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { PageLayout } from "@/components/layout/page-layout";
 import Header from "@/components/layout/header";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,10 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <PageLayout>{children}</PageLayout>
+          <PageLayout>
+            {children}
+            <Footer />
+          </PageLayout>
         </ThemeProvider>
       </body>
     </html>
